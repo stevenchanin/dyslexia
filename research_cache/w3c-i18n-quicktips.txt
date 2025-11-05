@@ -1,0 +1,85 @@
+Title: Internationalization Quick Tips for the Web
+
+URL Source: https://www.w3.org/International/quicktips/
+
+Published Time: Mon, 04 Aug 2025 23:34:26 GMT
+
+Markdown Content:
+[Skip to main content](https://www.w3.org/International/quicktips/#skip-target)[![Image 1: Go to W3C Home Page](https://www.w3.org/Icons/w3c_home)](https://www.w3.org/ "Go to W3C Home Page")
+[Learn](https://www.w3.org/International/i18n-drafts/nav/learn "Learn techniques and requirements for internationalization.")[Find](https://www.w3.org/International/i18n-drafts/nav/find "Find information on this site.")[Ask](https://www.w3.org/International/i18n-drafts/nav/ask "Ask for help or information.")[Follow](https://www.w3.org/International/i18n-drafts/nav/follow "Follow the work at W3C Internationalization.")[Participate](https://www.w3.org/International/i18n-drafts/nav/participate "Participate in W3C Internationalization work.")[About](https://www.w3.org/International/i18n-drafts/nav/about "About W3C Internationalization.")
+
+Updated 2015-04-01 13:22
+
+The following 'Quick Tips' summarize key concepts of international Web design. These tips are not complete guidelines, they are only a handful of concepts described at the W3C's [Internationalization Activity](https://www.w3.org/International/ "3") subsite.
+
+This page lists the tips in very terse statements that also appear on the [business-card size reference cards](https://www.w3.org/International/quicktips/quicktips.pdf "4"), followed by text that provides more detail and explanations. Then we link to information on the W3C Internationalization subsite, when available, where you can read further.
+
+This page will be updated from time to time.
+
+Quick tips[](https://www.w3.org/International/quicktips/#quicktips)
+-------------------------------------------------------------------
+
+[Encoding.](https://www.w3.org/International/quicktips/#encoding)Use the UTF-8 (Unicode) character encoding for content, databases, etc. Always declare the encoding.
+The character encoding you choose determines how bytes are mapped to characters in your text.
+
+Normally character encodings limit you to a particular script or set of languages. Unicode allows you to deal simply with almost all scripts and languages in use around the world. In this way Unicode simplifies the handling of content in multiple languages, whether within a single page or across one or more sites. Unicode is particularly useful when used in forms, scripts and databases, where you often need to support multiple languages. Unicode also makes it very straightforward to add new languages to your content.
+
+Unless you appropriately declare which character encoding you are using your users may be unable to read your content. This is because incorrect assumptions may be made by the application interpreting your text about how the bytes map to characters.
+
+ Give me more background[Character encodings for beginners](https://www.w3.org/International/questions/qa-what-is-encoding "5") explains some of the basic concepts about character encodings, and why you should care. [Introducing Character sets and Encodings](https://www.w3.org/International/getting-started/characters "6") gives an gentle introduction to various aspects of the topic. So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#charset "7") • [Spec developers](https://www.w3.org/International/techniques/developing-specs#characters "8") • [Server setup](https://www.w3.org/International/techniques/server-setup#charset "9")[Escapes.](https://www.w3.org/International/quicktips/#escapes)Use characters rather than escapes (e.g. &#xE1; &#225; or &aacute;) whenever you can. 
+Escapes such as Numeric Character References (NCRs), and entities are ways of representing any Unicode character using only ASCII characters. For example, you can represent the character á in HTML as `&#xE1;` or `&#225;` or `&aacute;`.
+
+Such escapes are useful for clearly representing ambiguous or invisible characters, and to prevent problems with syntax characters such as ampersands and angle brackets. They may also be useful on occasion to represent characters not supported by your character encoding or unavailable from your keyboard. Otherwise you should always use characters rather than escapes.
+
+Give me more background[Using character escapes in markup and CSS](https://www.w3.org/International/questions/qa-escapes "10") provides additional information about the use of escapes in markup languages. In particular, note that entities (such as &aacute;) should be used with caution. So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#escapes "11") • [Spec developers](https://www.w3.org/International/techniques/developing-specs#char_escapes "12") • [SVG authors](https://www.w3.org/International/techniques/authoring-svg#escapes "13")[Language.](https://www.w3.org/International/quicktips/#language)Declare the language of documents and indicate internal language changes.
+Information about the (human) language of content is already important for accessibility, styling, searching, editing, and other reasons. As more and more content is tagged and tagged correctly, applications that can detect language information will become more and more useful and pervasive.
+
+When declaring language, you may need to express information about a specific range of content in a different way from metadata about the document as a whole. It is important to understand this distinction.
+
+Give me more background[Language on the Web](https://www.w3.org/International/getting-started/language "14") gives an gentle introduction to various aspects of the topic. So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#language "15") • [SVG authors](https://www.w3.org/International/techniques/authoring-svg#language "16") • [XML authors](https://www.w3.org/International/techniques/authoring-xml#language "17") • [Server setup](https://www.w3.org/International/techniques/server-setup#language "18")[Presentation vs. content.](https://www.w3.org/International/quicktips/#presentation)Use style sheets for presentational information. Restrict markup to semantics.
+It is an important principle of Web design to keep the way content is styled or presented separate from the actual text itself. This makes it simple to apply alternative styling for the same text, for example in order to display the same content on both a conventional browser and a small hand-held device.
+
+This principle is particularly useful for localization, since different scripts have different typographic needs. For example, due to the complexity of Japanese characters, it may be preferable to show emphasis in Japanese HTML pages in other ways than bolding or italicisation. It is much easier to apply such changes if the presentation is described using CSS, and markup is much cleaner and more manageable if text is correctly and unambiguously labelled as 'emphasized' rather than just 'bold'.
+
+It can save considerable time and effort during localization to work with CSS files rather than have to change the markup, because any needed changes can be made in a single location for all pages, and the translator can focus on the content rather than the presentation.
+
+Give me more background Read the talks slides from the 2007 @media conference presentation "[Designing for International Users: Practical Tips](https://www.w3.org/2007/Talks/0706-atmedia/slides/Slide0350.html "19")". [Images, animations & examples.](https://www.w3.org/International/quicktips/#images)Check for translatability and inappropriate cultural bias.
+If you want your content to really communicate with people, you need to speak their language, not only through the text, but also through local imagery, color, objects and preoccupations. It is easy to overlook the culture-specific nature of symbolism, behaviour, concepts, body language, humor, etc. You should get feedback on the suitability and relevance of your images, video-clips, and examples from in-country users.
+
+You should also take care when incorporating text in graphics when content is translated. Text on complex backgrounds or in restricted spaces can cause considerable trouble for the translator. You should provide graphics to the localization group that have text on a separate layer, and you should bear in mind that text in languages such as English and Chinese will almost certainly expand in translation.
+
+Give me more background Read the talks slides from the 2007 @media conference presentation "[Designing for International Users: Practical Tips](https://www.w3.org/2007/Talks/0706-atmedia/slides/Slide0440.html "20")". [Forms.](https://www.w3.org/International/quicktips/#forms)Use UTF-8 on both form and server. Support local formats of names/addresses, times/dates, etc.
+The encoding used for an HTML page that contains a form should support all the characters needed to enter data into that form. This is particularly important if users are likely to enter information in multiple languages.
+
+Databases and scripts that receive data from forms on pages in multiple languages must also be able to support the characters for all those languages simultaneously.
+
+The simplest way to enable this is to use the Unicode character encoding UTF-8 for both pages containing forms and all back-end processing and storage. In such a scenario the user can fill in data in whatever language and script they need to.
+
+You should also try to avoid making assumptions that things such as the user's name and address will follow the same formatting rules as your own. Ask yourself how much detail you really need to break out into separate fields for things such as addresses. Bear in mind that in some cultures there are no street names, in others the house number follows the street name, some people need more than one line for the part of the address that precedes the town or city name, etc. In fact in some places an address runs top down from the general to the specific, which implies a very different layout strategy. Be very careful about building into validation routines incorrect assumptions about area codes or telephone number lengths. Recognize that careful labelling is required for how to enter numeric dates, since there are different conventions for ordering of day, month and year.
+
+If you are gathering information from people in more than one country, it is important to develop a strategy for addressing the different formats people will expect to be able to use. Not only is this important for the design of the forms you create, but it also has an impact on how you will store such information in databases.
+
+So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#formcontrols "21")[Text authoring.](https://www.w3.org/International/quicktips/#authoring)Use simple, concise text. Use care when composing sentences from multiple strings.
+Simple, concise text is easier to translate. It is also easier for people to read if the text they are reading is not in their first language.
+
+You should take considerable care when composing messages from multiple substrings, or when inserting variable text into strings. For example, suppose your site uses PHP scripting, and you decide to compose certain messages on the fly. You may create messages by concatenating separate substrings, such as 'Only' or 'Don't', ' return results in ', and 'any format' or 'HTML'. Because the order of text in sentences of other languages can be very different, translating this may present major difficulties.
+
+Similarly, it is important to avoid fixing the positions of variables in text such as "Page 1 of 10". The syntax of other languages may require the numbers to be reversed to make sense. If you use PHP, this would mean using a formatting string such as "Page %1\$d of %2\$d.", rather than the more simple "Page %d of %d.". The latter is untranslatable in some languages.
+
+So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#strings "22")[Navigation.](https://www.w3.org/International/quicktips/#navigating)On each page include clearly visible navigation to localized pages or sites, using the target language.
+Where you have versions of a page or site in a different language, or for a different country or region, you should provide a way for the user to view the version they prefer. This should be available from any page on your site where an alternative exists.
+
+When providing links to pages in other languages, use the name of the target language _in the native language and script_. Don't assume that the user can read English. For example, in a link to a French page, 'French' would be written 'français'. This also applies if you are guiding the user to a country- or region-specific page or site, eg. 'Germany' would be 'Deutschland'.
+
+So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#navigation "23")[Right-to-left text.](https://www.w3.org/International/quicktips/#rtl)For HTML, add `dir="rtl"` to the html tag. Only re-use it to change the base direction.
+Text in languages such as Arabic, Hebrew, Persian and Urdu is read from right to left. This reading order typically leads to right-aligned text and mirror-imaging of things like page and table layout. You can set the default alignment and ordering of page content to right to left by simply including `dir="rtl"` in the `html` tag.
+
+The direction set in the `html` tag sets a base direction for the document which cascades down through all the elements on the page. It is not necessary to repeat the attribute on lower level elements unless you want to explicitly change the directional flow.
+
+Embedded text in, for example, Latin script still runs left to right within the overall right to left flow. So do numbers. If you are working with right to left languages, you should become familiar with the basics of the Unicode bidirectional algorithm. This algorithm takes care of much of this bidirectional text without the need for intervention from the author. There are some circumstances, however, where markup or Unicode control characters are needed to ensure the correct effect.
+
+Give me more background[Unicode Bidirectional Algorithm basics](https://www.w3.org/International/articles/inline-bidi-markup/uba-basics "24") provides a gentle introduction to the basics of how the Unicode Bidirectional Algorithm works, and where it needs help from markup. [Creating HTML Pages in Arabic, Hebrew and Other Right-to-left Scripts](https://www.w3.org/International/tutorials/bidi-xhtml/ "25") provides a gentle introduction to the basics of handling right-to-left text in HTML. The principles are similar for other markup languages. [Inline markup and bidirectional text in HTML](https://www.w3.org/International/articles/inline-bidi-markup/ "26") provides another gentle introduction, this time to the basics of handling inline bidirectional text.  So, how do I do this?[HTML & CSS authors](https://www.w3.org/International/techniques/authoring-html#direction "27") • [SVG authors](https://www.w3.org/International/techniques/authoring-svg#direction "28") • [XML authors](https://www.w3.org/International/techniques/authoring-xml#direction "29") • [Schema developers](https://www.w3.org/International/techniques/developing-schemas#direction "30") Check your work. [Validate!](http://validator.w3.org/ "31") Use techniques, tutorials, and articles at [https://www.w3.org/International/](https://www.w3.org/International/ "32")Try the [W3C Internationalization Checker](https://validator.w3.org/i18n-checker/ "33").
+Other introductory materials[](https://www.w3.org/International/quicktips/#materials)
+-------------------------------------------------------------------------------------
+
+There is a [Getting Started](https://www.w3.org/International/i18n-drafts/getting-started/ "34") page to help you find information on the site. The Getting Started page points to articles that provide newcomers with a gentle introduction to key internationalization topics and point to basic information on the site to get you going.
