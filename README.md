@@ -40,6 +40,8 @@ The research and planning phase is complete. Detailed documentation includes:
 - **[RESEARCH.md](./RESEARCH.md)** - Comprehensive research on dyslexia intervention methods, exercise types, and assessment metrics
 - **[FEATURE_DESIGN.md](./FEATURE_DESIGN.md)** - Complete feature specifications, exercise modules, progress tracking, and UX design
 - **[TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md)** - Full technical architecture, database schema, API design, and 26-week implementation roadmap
+- **[COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md)** - Market analysis, competitor comparison, and differentiation strategy
+- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Executive summary of all research and planning
 - **[CLAUDE.md](./CLAUDE.md)** - Guidance for Claude Code when working in this repository
 
 ## Technology Stack
@@ -49,11 +51,33 @@ The research and planning phase is complete. Detailed documentation includes:
 - **Audio**: Google Cloud Text-to-Speech & Speech-to-Text
 - **Infrastructure**: Vercel/Netlify (frontend), Railway/Render (backend), Auth0 (authentication)
 
+## Why This Project Matters
+
+### The Problem
+- **Effective dyslexia programs cost $100-600/month** - out of reach for low-income families
+- **4-5 million low-income US students have dyslexia** and lack access to proper intervention
+- Free alternatives are either assistive tools (text-to-speech) or scattered resources, not comprehensive programs
+- Schools lack sufficient trained staff to serve all students with dyslexia
+
+### The Solution
+This project aims to be the **first comprehensive, free, open-source dyslexia intervention program** that:
+- Provides evidence-based structured literacy instruction at zero cost
+- Includes progress tracking and WCPM measurement (rare in free tools)
+- Offers adaptive difficulty and gamification for engagement
+- Requires no professional oversight (families can start immediately)
+- Serves underserved populations: low-income families, rural areas, international users
+
+### The Impact
+Research shows **95% of children with dyslexia can achieve functional literacy** with appropriate intervention. By removing the cost barrier, this project could help millions of children who otherwise wouldn't receive effective support.
+
+See [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) for detailed market analysis and competitive positioning.
+
 ## Current Status
 
 ✅ Research phase complete
 ✅ Feature design complete
 ✅ Technical architecture complete
+✅ Competitive analysis complete
 ⬜ Implementation phase - Ready to begin
 
 ## Getting Started
