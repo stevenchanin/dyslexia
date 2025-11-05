@@ -41,6 +41,7 @@ The research and planning phase is complete. Detailed documentation includes:
 - **[FEATURE_DESIGN.md](./FEATURE_DESIGN.md)** - Complete feature specifications, exercise modules, progress tracking, and UX design
 - **[TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md)** - Full technical architecture, database schema, API design, and 26-week implementation roadmap
 - **[MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md)** - Mobile-first PWA approach, offline functionality, and mobile optimization
+- **[LLM_INTEGRATION_STRATEGY.md](./LLM_INTEGRATION_STRATEGY.md)** - AI-powered tutoring, adaptive learning, and intelligent feedback system
 - **[COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md)** - Market analysis, competitor comparison, and differentiation strategy
 - **[COMPETITIVE_SUMMARY.md](./COMPETITIVE_SUMMARY.md)** - Quick reference competitive positioning
 - **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Executive summary of all research and planning
@@ -70,8 +71,9 @@ The research and planning phase is complete. Detailed documentation includes:
 This project aims to be the **first comprehensive, free, open-source dyslexia intervention program** that:
 - Provides evidence-based structured literacy instruction at zero cost
 - Includes progress tracking and WCPM measurement (rare in free tools)
-- Offers adaptive difficulty and gamification for engagement
-- Requires no professional oversight (families can start immediately)
+- Offers **AI-powered adaptive learning** using LLMs for intelligent difficulty adjustment
+- Provides **AI tutor guidance** for families (replacing expensive professional oversight)
+- Works on smartphones with offline capability (mobile-first PWA)
 - Serves underserved populations: low-income families, rural areas, international users
 
 ### The Impact
@@ -86,6 +88,7 @@ See [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) for detailed market ana
 ✅ Technical architecture complete
 ✅ Competitive analysis complete
 ✅ Mobile-first strategy defined
+✅ LLM integration strategy designed
 ⬜ Implementation phase - Ready to begin
 
 ## Getting Started
