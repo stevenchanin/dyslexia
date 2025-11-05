@@ -1,10 +1,71 @@
-# Dyslexia Reading Intervention Software
+# Free Dyslexia Reading Intervention
 
-A comprehensive, evidence-based software application designed to help individuals with dyslexia improve their reading skills through engaging computer exercises.
+> **Help us build the first comprehensive, AI-powered dyslexia intervention program that's completely free for families who need it most.**
+
+## The Problem We're Solving
+
+Every year, millions of children with dyslexia fall behind in reading—not because they can't learn, but because **effective intervention costs $100-600 per month**, putting it out of reach for the families who need it most. Research shows that **95% of children with dyslexia can achieve functional literacy** with proper intervention, yet **4-5 million low-income students** in the US lack access to these proven programs.
+
+**We're changing that.**
+
+## What We're Building
+
+A free, open-source, mobile-first web app that provides:
+
+- ✅ **Evidence-based intervention** using Orton-Gillingham and Structured Literacy methods
+- ✅ **AI-powered adaptive learning** that personalizes difficulty and provides family guidance (replacing expensive professional oversight)
+- ✅ **Works on smartphones** (71% of low-income families rely on mobile devices)
+- ✅ **Offline capability** for families with limited internet access
+- ✅ **Progress tracking** with automated assessments (WCPM, skill mastery)
+- ✅ **Engaging gamification** to keep kids motivated
+
+**The result:** Professional-grade dyslexia intervention that any family can access, for free, from any smartphone.
+
+## Why This Matters
+
+**Market gap:** No free comprehensive dyslexia intervention program exists. Free tools are either assistive (text-to-speech) or scattered resources, not structured intervention.
+
+**Our advantage:** By leveraging modern technology (PWAs, LLMs, open source), we can deliver what competitors charge $1,200-7,200/year for at a cost of pennies per student.
+
+**Impact potential:** If we help even 10,000 children learn to read who couldn't afford intervention, we've changed 10,000 lives. At scale, we could reach millions.
+
+## The Opportunity for Collaborators
+
+This project is **fully planned and ready for implementation**. We have:
+
+- 📚 **50,000+ words of research and planning** covering intervention methods, features, technical architecture, competitive strategy, and go-to-market
+- 🏗️ **Complete technical specifications** (mobile-first PWA, React/TypeScript, LLM integration)
+- 🎯 **Clear roadmap** with 26-week implementation plan
+- 💰 **Minimal costs** (~$127/month to serve 1,000 students)
+- 🌍 **Massive underserved market** (millions of families waiting for this solution)
+
+**We need collaborators who want to:**
+- 💻 Build life-changing software (React, TypeScript, Node.js, ML/AI)
+- 📝 Create educational content (exercises, reading materials)
+- 🎨 Design accessible, mobile-first interfaces
+- 📊 Analyze data and measure impact
+- 🤝 Connect with schools and nonprofits
+- 📣 Spread the word to families who need this
+
+**What you'll gain:**
+- Build something that genuinely changes lives
+- Work with cutting-edge AI/education technology
+- Join a mission-driven open-source project
+- Portfolio piece that demonstrates technical skill and social impact
+- Potential for grants/funding as project grows
+
+## Project Status
+
+✅ **Planning complete** - Extensive research, feature design, technical architecture, and go-to-market strategy all documented
+⬜ **Implementation starting** - Ready to build
+
+**See documentation below for complete details on every aspect of the project.**
+
+---
 
 ## Project Overview
 
-This application provides structured literacy intervention based on the Orton-Gillingham method and multicomponent reading instruction. Research shows that **95% of children with dyslexia can achieve functional literacy** with appropriate evidence-based intervention.
+This application provides structured literacy intervention based on the Orton-Gillingham method and multicomponent reading instruction, accessible via smartphone with AI-powered personalization.
 
 ### Core Features
 
