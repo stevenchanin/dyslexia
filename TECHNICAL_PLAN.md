@@ -1,41 +1,88 @@
 # Technical Implementation Plan
 
+## ⚠️ MOBILE-FIRST STRATEGY
+
+**Critical Decision:** This application will be built as a **Progressive Web App (PWA)** with mobile-first design.
+
+**Why:**
+- 26% of low-income households are smartphone-only (no computer/home internet)
+- 71% of people earning <$30,000 own smartphones
+- Our target audience (low-income families with dyslexia) primarily uses mobile devices
+- See [MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md) for complete rationale
+
 ## Technology Stack Recommendations
 
-### Frontend
+### Frontend - Progressive Web App (PWA)
 
-#### Web Application (Recommended Primary Platform)
-**Framework: React + TypeScript**
+#### Core Framework
+**React 18+ with TypeScript**
 - **Why**: Component reusability, large ecosystem, excellent TypeScript support
-- Rich UI libraries available
 - Strong accessibility (a11y) support
-- Can be packaged as desktop app (Electron) or mobile (React Native)
+- Excellent PWA tooling ecosystem
+- Works on all platforms (iOS, Android, desktop) from single codebase
 
-**UI Framework: Material-UI (MUI) or Chakra UI**
-- Built-in accessibility features
-- Clean, professional components
-- Easy customization
-- Responsive design out-of-box
+#### Build Tool
+**Vite** (Recommended over Create React App)
+- Extremely fast development builds
+- Optimized production bundles
+- Built-in PWA plugin (vite-plugin-pwa)
+- Better performance for mobile
 
-**State Management: Zustand or Redux Toolkit**
-- Manage user progress, exercise state
-- Persist data locally and sync with backend
-- Handle complex adaptive learning logic
+#### PWA Implementation
+**Workbox (Google's Service Worker Library)**
+- Simplified service worker setup
+- Proven caching strategies
+- Offline-first architecture
+- Background sync capabilities
 
-**Audio/Voice: Web Audio API + Web Speech API**
+**Progressive Features:**
+- Service workers for offline functionality
+- Cache-first for app shell
+- Background sync for progress data
+- Install to home screen (appears like native app)
+- Push notifications (optional, future feature)
+
+#### UI Framework
+**Tailwind CSS + Lightweight Component Library**
+- **Tailwind CSS**: Mobile-first by default, tiny bundle size
+- **shadcn/ui or Headless UI**: Lightweight, accessible, customizable
+- **NOT Material-UI**: Too heavy for mobile (~300KB+)
+- Custom components optimized for touch
+
+#### State Management
+**Zustand** (Recommended for PWA)
+- Lightweight (~1KB) - critical for mobile
+- Simple API, easy to learn
+- Works great with React hooks
+- Persist to IndexedDB for offline
+
+**Alternative: Redux Toolkit** (if complex state needed)
+
+#### Local Storage & Offline Data
+**IndexedDB via Dexie.js**
+- Store exercises offline
+- Cache audio files locally
+- Save progress when offline
+- Sync to server when online
+
+**LocalStorage**
+- User preferences and settings
+- Small, simple key-value data
+
+#### Audio/Voice
+**Web Audio API + Web Speech API** (Browser-Native, Free)
 - Text-to-speech (TTS) for accessibility
 - Speech recognition for pronunciation exercises
-- Audio playback for phoneme sounds
+- MediaRecorder API for voice recording
+- No external dependencies, no cost
+- Works offline (if audio pre-cached)
 
-**Charts/Visualization: Recharts or Chart.js**
-- Progress graphs and dashboards
-- Performance over time
-- Skill heat maps
-
-**Styling: Tailwind CSS + CSS Modules**
-- Rapid UI development
-- Consistent design system
-- Easy theming for accessibility options
+#### Charts/Visualization
+**Lightweight Charting Library**
+- **recharts** (React-specific, tree-shakeable)
+- **Chart.js** (smaller bundle than Recharts)
+- Mobile-optimized touch interactions
+- Responsive by default
 
 ### Backend
 
@@ -64,10 +111,12 @@
 - Cache frequently accessed data
 - Real-time features (leaderboards, live updates)
 
-**File Storage: AWS S3 or Cloudflare R2**
+**File Storage: Cloudflare R2 or Backblaze B2** (cheaper than S3)
 - Audio files (phoneme sounds, word pronunciations)
 - User voice recordings
 - Images and visual assets
+- CDN for global distribution
+- Critical for mobile data conservation
 
 #### Authentication
 **Auth0 or Firebase Authentication**

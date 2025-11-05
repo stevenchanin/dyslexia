@@ -40,16 +40,23 @@ The research and planning phase is complete. Detailed documentation includes:
 - **[RESEARCH.md](./RESEARCH.md)** - Comprehensive research on dyslexia intervention methods, exercise types, and assessment metrics
 - **[FEATURE_DESIGN.md](./FEATURE_DESIGN.md)** - Complete feature specifications, exercise modules, progress tracking, and UX design
 - **[TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md)** - Full technical architecture, database schema, API design, and 26-week implementation roadmap
+- **[MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md)** - Mobile-first PWA approach, offline functionality, and mobile optimization
 - **[COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md)** - Market analysis, competitor comparison, and differentiation strategy
+- **[COMPETITIVE_SUMMARY.md](./COMPETITIVE_SUMMARY.md)** - Quick reference competitive positioning
 - **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Executive summary of all research and planning
 - **[CLAUDE.md](./CLAUDE.md)** - Guidance for Claude Code when working in this repository
 
 ## Technology Stack
 
-- **Frontend**: React + TypeScript, Material-UI/Chakra UI, Web Audio API
-- **Backend**: Node.js + Express + TypeScript, PostgreSQL, Redis
-- **Audio**: Google Cloud Text-to-Speech & Speech-to-Text
-- **Infrastructure**: Vercel/Netlify (frontend), Railway/Render (backend), Auth0 (authentication)
+**⚡ Mobile-First Progressive Web App (PWA)**
+
+- **Frontend**: React + TypeScript, Vite, Tailwind CSS, Workbox (PWA/offline)
+- **Backend**: Node.js + Express + TypeScript, PostgreSQL
+- **Storage**: IndexedDB (offline data), Cloudflare R2 (audio files)
+- **Audio**: Web Audio API, Web Speech API (browser-native, free)
+- **Infrastructure**: Vercel/Netlify (PWA hosting), Railway/Render (backend)
+
+**Why Mobile-First:** 26% of low-income households are smartphone-only. See [MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md)
 
 ## Why This Project Matters
 
@@ -78,6 +85,7 @@ See [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) for detailed market ana
 ✅ Feature design complete
 ✅ Technical architecture complete
 ✅ Competitive analysis complete
+✅ Mobile-first strategy defined
 ⬜ Implementation phase - Ready to begin
 
 ## Getting Started
