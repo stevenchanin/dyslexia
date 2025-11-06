@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardHeader, CardBody, Button, Stack, Heading, Text, Badge, Alert } from '../../../ui';
+import { useExerciseUI } from '../store';
 
 type Mode = 'begin' | 'end' | 'middle';
 
@@ -35,11 +36,42 @@ export function SoundIdentificationMock() {
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [streak, setStreak] = useState(3);
   const [points, setPoints] = useState(120);
+  const ttsRate = useExerciseUI((s) => s.ttsRate);
+  const lowBandwidth = useExerciseUI((s) => s.lowBandwidth);
+  const [ttsSupported, setTtsSupported] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const round = SAMPLE_ROUNDS[index % SAMPLE_ROUNDS.length];
   const target = useMemo(() => getTarget(round), [round]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      setTtsSupported(true);
+    }
+  }, []);
+
+  const speakWord = () => {
+    if (!ttsSupported || lowBandwidth) return;
+    try {
+      const synth = window.speechSynthesis;
+      // Stop any ongoing speech
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(round.word);
+      u.lang = 'en-US';
+      u.rate = Math.max(0.5, Math.min(2, ttsRate || 1));
+      const voices = synth.getVoices();
+      const en = voices.find((v) => v.lang && v.lang.toLowerCase().startsWith('en'));
+      if (en) u.voice = en;
+      u.onstart = () => setIsSpeaking(true);
+      u.onend = () => setIsSpeaking(false);
+      u.onerror = () => setIsSpeaking(false);
+      synth.speak(u);
+    } catch (e) {
+      setIsSpeaking(false);
+    }
+  };
+
   const onChoose = (opt: string) => {
-    if (selected) return;
+    if (selected || isSpeaking) return;
     setSelected(opt);
     const isCorrect = opt === target;
     setCorrect(isCorrect);
@@ -73,7 +105,13 @@ export function SoundIdentificationMock() {
             <Badge colorScheme="blue" width="fit-content">{targetLabel(round.mode)}</Badge>
 
             <Stack direction="row" align="center" spacing={3}>
-              <Button aria-label="Play word audio" leftIcon={<span>▶︎</span>} variant="outline">
+              <Button
+                aria-label="Play word audio"
+                leftIcon={<span>▶︎</span>}
+                variant="outline"
+                onClick={speakWord}
+                isDisabled={!ttsSupported || lowBandwidth || isSpeaking}
+              >
                 Listen to the word
               </Button>
               <Text fontSize="sm" color="gray.600">(word: {round.word})</Text>
@@ -95,6 +133,7 @@ export function SoundIdentificationMock() {
                       colorScheme={color}
                       minW="72px"
                       minH="56px"
+                      isDisabled={isSpeaking}
                     >
                       /{opt}/
                     </Button>
@@ -120,4 +159,3 @@ export function SoundIdentificationMock() {
     </Stack>
   );
 }
-
