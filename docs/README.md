@@ -19,3 +19,4 @@ Primary planning and research docs are consolidated here under `docs/`.
 - CLAUDE: ./CLAUDE.md
 - Brainstorm: ./brainstorm.md
 - Intellectual Property: ./INTELLECTUAL_PROPERTY.md
+ - Module Specs Index: ./specs/README.md
