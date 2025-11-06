@@ -191,7 +191,7 @@ Next steps:
 - `frontend/` — React + Vite app (Chakra via `/ui`, TanStack Query + Zustand)
 - `docs/` — All planning and research documentation (see docs/README.md)
 - `decisions/` — Architecture Decision Records (ADRs)
-- `research_cache/` — Cached research fetches and index (from `scripts/fetch_research.sh`)
+  
 - `scripts/` — Utility scripts (e.g., batch web fetch)
 
 ## Key Research Findings

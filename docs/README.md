@@ -18,7 +18,3 @@ Primary planning and research docs are consolidated here under `docs/`.
 - UI SYSTEM OPTIONS: ./UI_SYSTEM_OPTIONS.md
 - CLAUDE: ./CLAUDE.md
 - Brainstorm: ./brainstorm.md
-
-Research cache
-- ../research_cache/_INDEX.md
-- ../research_cache/* (cached sources)
