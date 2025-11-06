@@ -164,15 +164,35 @@ See [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) for detailed market ana
 
 ## Getting Started
 
-Implementation hasn't begun yet. When development starts:
+Frontend (React + Vite + Chakra UI)
 
+Prereqs:
+- Node.js 18+
+- npm 9+ (or pnpm/yarn if you prefer)
+
+Run the demo shell:
 ```bash
-# Setup instructions will be added here
+cd frontend
 npm install
 npm run dev
+# open http://localhost:5173
 ```
 
-See [TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md) for the complete development roadmap and setup instructions.
+Notes:
+- The demo renders a minimal ExercisePlayer with Query + Zustand and Chakra UI via the `/ui` wrapper.
+- No backend is wired yet; API calls will 404 unless you proxy or mock.
+
+Next steps:
+- See [STATE_PATTERNS.md](./STATE_PATTERNS.md) for client state patterns.
+- See [TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md) for the end-to-end roadmap.
+
+## Repository Layout
+
+- `frontend/` — React + Vite app (Chakra via `/ui`, TanStack Query + Zustand)
+- `docs/` — All planning and research documentation (see docs/README.md)
+- `decisions/` — Architecture Decision Records (ADRs)
+- `research_cache/` — Cached research fetches and index (from `scripts/fetch_research.sh`)
+- `scripts/` — Utility scripts (e.g., batch web fetch)
 
 ## Key Research Findings
 
@@ -190,4 +210,3 @@ This project is in early development. Contribution guidelines will be added as i
 ## License
 
 License to be determined.
-
