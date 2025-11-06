@@ -50,13 +50,12 @@
 - Custom components optimized for touch
 
 #### State Management
-**Zustand** (Recommended for PWA)
-- Lightweight (~1KB) - critical for mobile
-- Simple API, easy to learn
-- Works great with React hooks
-- Persist to IndexedDB for offline
+**TanStack Query (server state) + Zustand (UI/app state)**
+- TanStack Query for API/server data: caching, deduping, retries, background refetch, and fine-grained invalidation via query keys.
+- Zustand for small UI/app state only (preferences, toggles, ephemeral UI), optionally persisted locally.
+- Result: Minimal boilerplate and clear separation; avoids Redux-style ceremony while remaining widely used and well-documented.
 
-**Alternative: Redux Toolkit** (if complex state needed)
+See STATE_PATTERNS.md for examples and conventions.
 
 #### Local Storage & Offline Data
 **IndexedDB via Dexie.js**

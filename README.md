@@ -114,12 +114,18 @@ The research and planning phase is complete. Detailed documentation includes:
 **⚡ Mobile-First Progressive Web App (PWA)**
 
 - **Frontend**: React + TypeScript, Vite, Tailwind CSS, Workbox (PWA/offline)
+- **State**: TanStack Query (server state) + Zustand (UI/app state)
 - **Backend**: Node.js + Express + TypeScript, PostgreSQL
 - **Storage**: IndexedDB (offline data), Cloudflare R2 (audio files)
 - **Audio**: Web Audio API, Web Speech API (browser-native, free)
 - **Infrastructure**: Vercel/Netlify (PWA hosting), Railway/Render (backend)
 
 **Why Mobile-First:** 26% of low-income households are smartphone-only. See [MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md)
+
+### State Management Approach
+- We use TanStack Query for all server-derived data (API responses), handling caching and invalidation via query keys.
+- We use a small Zustand store for UI/app state (e.g., low-bandwidth toggle, TTS rate), optionally persisted.
+- This keeps the codebase readable and avoids Redux-style boilerplate. See [STATE_PATTERNS.md](./STATE_PATTERNS.md).
 
 ## Why This Project Matters
 
@@ -182,6 +188,5 @@ This project is in early development. Contribution guidelines will be added as i
 ## License
 
 License to be determined.
-
 
 
