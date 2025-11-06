@@ -20,5 +20,5 @@ Consequences
 - Patterns and examples are documented in STATE_PATTERNS.md.
 
 Links
-- STATE_PATTERNS.md
-- TECHNICAL_PLAN.md#state-management
+- ../docs/STATE_PATTERNS.md
+- ../docs/TECHNICAL_PLAN.md#state-management

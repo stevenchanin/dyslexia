@@ -46,7 +46,7 @@ Goal: Identify extensions that materially increase user value without significan
 - Effort: M (plumbing + string extraction; incremental rollout).
 - Dependencies: None blocking; content copy later.
 - Viability: Promising. Medium lift with outsized reach; pairs well with TTS multi-language.
- - Research snapshot: W3C i18n quick tips recommend early planning for locales, pluralization, and text expansion; i18next provides lightweight JSON resource loading, plurals, and interpolation without heavy runtime costs (see research_cache/i18next-docs.txt and w3c-i18n-quicktips.txt). Starting with Spanish addresses a large audience with minimal engineering risk.
+ - Research snapshot: W3C i18n quick tips recommend early planning for locales, pluralization, and text expansion; i18next provides lightweight JSON resource loading, plurals, and interpolation without heavy runtime costs (see ../research_cache/i18next-docs.txt and ../research_cache/w3c-i18n-quicktips.txt). Starting with Spanish addresses a large audience with minimal engineering risk.
 
 7) Parent SMS/WhatsApp Nudges (Opt-in)
 - What: Weekly progress summary + practice reminders via SMS/WhatsApp with deep links.
@@ -54,7 +54,7 @@ Goal: Identify extensions that materially increase user value without significan
 - Effort: S-M (Twilio/WhatsApp integration + templates + consent).
 - Dependencies: Consent + unsub; minimal backend endpoint.
 - Viability: Promising. Narrow scope messaging first; strong engagement upside.
- - Research snapshot: Multiple randomized field experiments in K–12 and early childhood contexts report that low-cost parent text-message nudges improve attendance/engagement and at-home literacy behaviors. Compliance and privacy (opt-in, clear opt-out) are essential. Cached references in research_cache (e.g., attendance-nudges-ssrn.txt); some legacy links returned 410/404 but findings are widely replicated.
+ - Research snapshot: Multiple randomized field experiments in K–12 and early childhood contexts report that low-cost parent text-message nudges improve attendance/engagement and at-home literacy behaviors. Compliance and privacy (opt-in, clear opt-out) are essential. Cached references in ../research_cache (e.g., attendance-nudges-ssrn.txt); some legacy links returned 410/404 but findings are widely replicated.
 
 8) Household Profiles (Siblings) with Quick Switch (PIN)
 - What: Parent account hosts multiple child profiles; quick PIN switcher on mobile.

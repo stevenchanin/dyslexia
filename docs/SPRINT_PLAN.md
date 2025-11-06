@@ -141,4 +141,3 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
 - Milestone B (Sprints 5–7): Placement + manual WCPM + reporting and decodables
 - Milestone C (Sprints 8–10): i18n, content packs, educator utilities, nudges
 - Milestone D (Sprints 11–12): AI assist MVP + pilot readiness
-

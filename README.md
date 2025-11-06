@@ -98,16 +98,17 @@ This application provides structured literacy intervention based on the Orton-Gi
 
 The research and planning phase is complete. Detailed documentation includes:
 
-- **[RESEARCH.md](./RESEARCH.md)** - Comprehensive research on dyslexia intervention methods, exercise types, and assessment metrics
-- **[FEATURE_DESIGN.md](./FEATURE_DESIGN.md)** - Complete feature specifications, exercise modules, progress tracking, and UX design
-- **[TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md)** - Full technical architecture, database schema, API design, and 26-week implementation roadmap
-- **[MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md)** - Mobile-first PWA approach, offline functionality, and mobile optimization
-- **[LLM_INTEGRATION_STRATEGY.md](./LLM_INTEGRATION_STRATEGY.md)** - AI-powered tutoring, adaptive learning, and intelligent feedback system
-- **[MARKETING_STRATEGY.md](./MARKETING_STRATEGY.md)** - Zero-budget go-to-market plan for widespread adoption
-- **[COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md)** - Market analysis, competitor comparison, and differentiation strategy
-- **[COMPETITIVE_SUMMARY.md](./COMPETITIVE_SUMMARY.md)** - Quick reference competitive positioning
-- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Executive summary of all research and planning
-- **[CLAUDE.md](./CLAUDE.md)** - Guidance for Claude Code when working in this repository
+- See docs/ for the full set:
+  - **docs/RESEARCH.md** - Comprehensive research on dyslexia intervention methods, exercise types, and assessment metrics
+  - **docs/FEATURE_DESIGN.md** - Complete feature specifications, exercise modules, progress tracking, and UX design
+  - **docs/TECHNICAL_PLAN.md** - Full technical architecture, database schema, API design, and 26-week implementation roadmap
+  - **docs/MOBILE_FIRST_STRATEGY.md** - Mobile-first PWA approach, offline functionality, and mobile optimization
+  - **docs/LLM_INTEGRATION_STRATEGY.md** - AI-powered tutoring, adaptive learning, and intelligent feedback system
+  - **docs/MARKETING_STRATEGY.md** - Zero-budget go-to-market plan for widespread adoption
+  - **docs/COMPETITIVE_ANALYSIS.md** - Market analysis, competitor comparison, and differentiation strategy
+  - **docs/COMPETITIVE_SUMMARY.md** - Quick reference competitive positioning
+  - **docs/PROJECT_SUMMARY.md** - Executive summary of all research and planning
+  - **docs/CLAUDE.md** - Guidance for contributors when working in this repository
 
 ## Technology Stack
 
