@@ -23,11 +23,9 @@ A free, open-source, mobile-first web app that provides:
 
 ## Why This Matters
 
-**Market gap:** No free comprehensive dyslexia intervention program exists. Free tools are either assistive (text-to-speech) or scattered resources, not structured intervention.
-
-**Our advantage:** By leveraging modern technology (PWAs, LLMs, open source), we can deliver what competitors charge $1,200-7,200/year for at a cost of pennies per student.
-
-**Impact potential:** If we help even 10,000 children learn to read who couldn't afford intervention, we've changed 10,000 lives. At scale, we could reach millions.
+- Market gap: No free comprehensive dyslexia intervention program exists. Free tools are either assistive (text-to-speech) or scattered resources, not structured intervention.
+- Our advantage: By leveraging modern technology (PWAs, LLMs, open source), we can deliver what competitors charge $1,200-7,200/year for at a cost of pennies per student.
+- Impact potential: If we help even 10,000 children learn to read who couldn't afford intervention, we've changed 10,000 lives. At scale, we could reach millions.
 
 ## The Opportunity for Collaborators
 
@@ -65,34 +63,7 @@ This project is **fully planned and ready for implementation**. We have:
 
 ## Project Overview
 
-This application provides structured literacy intervention based on the Orton-Gillingham method and multicomponent reading instruction, accessible via smartphone with AI-powered personalization.
-
-### Core Features
-
-- **Interactive Exercise Modules**
-  - Phonological Awareness Training
-  - Phonics & Decoding Practice
-  - Word Recognition & Fluency
-  - Reading Comprehension
-  - Spelling & Encoding
-
-- **Progress Tracking & Measurement**
-  - Words Correct Per Minute (WCPM) calculation
-  - Skill mastery tracking across multiple areas
-  - Visual progress dashboards
-  - Weekly and monthly reports
-
-- **Engagement & Motivation**
-  - Adaptive difficulty adjustment
-  - Points, badges, and achievements
-  - Spaced repetition for retention
-  - Personalized learning paths
-
-- **Accessibility Features**
-  - Text-to-Speech (TTS) support
-  - Adjustable text size and contrast
-  - Clean interface (Arial font - research shows special dyslexia fonts provide no benefit)
-  - Multi-sensory learning approach
+This app delivers evidence‑based Structured Literacy via a mobile‑first PWA with AI‑powered personalization. See docs/FEATURE_DESIGN.md for the complete feature set and UX details.
 
 ## Documentation
 
@@ -121,46 +92,13 @@ The research and planning phase is complete. Detailed documentation includes:
 - **Audio**: Web Audio API, Web Speech API (browser-native, free)
 - **Infrastructure**: Vercel/Netlify (PWA hosting), Railway/Render (backend)
 
-**Why Mobile-First:** 26% of low-income households are smartphone-only. See [MOBILE_FIRST_STRATEGY.md](./MOBILE_FIRST_STRATEGY.md)
+**Why Mobile-First:** 26% of low-income households are smartphone-only. See docs/MOBILE_FIRST_STRATEGY.md
 
 ### State Management Approach
 - TanStack Query for all server-derived data (API responses) with caching and invalidation via query keys.
 - A small Zustand store for UI/app state (e.g., low-bandwidth toggle, TTS rate), optionally persisted.
 - Chakra UI components are accessed through `frontend/src/ui` wrappers (Button, Card, Stack, TextInput, Modal, Typography) to keep JSX clean and consistent.
-- This keeps the codebase readable and avoids Redux-style boilerplate. See [STATE_PATTERNS.md](./STATE_PATTERNS.md).
-
-## Why This Project Matters
-
-### The Problem
-- **Effective dyslexia programs cost $100-600/month** - out of reach for low-income families
-- **4-5 million low-income US students have dyslexia** and lack access to proper intervention
-- Free alternatives are either assistive tools (text-to-speech) or scattered resources, not comprehensive programs
-- Schools lack sufficient trained staff to serve all students with dyslexia
-
-### The Solution
-This project aims to be the **first comprehensive, free, open-source dyslexia intervention program** that:
-- Provides evidence-based structured literacy instruction at zero cost
-- Includes progress tracking and WCPM measurement (rare in free tools)
-- Offers **AI-powered adaptive learning** using LLMs for intelligent difficulty adjustment
-- Provides **AI tutor guidance** for families (replacing expensive professional oversight)
-- Works on smartphones with offline capability (mobile-first PWA)
-- Serves underserved populations: low-income families, rural areas, international users
-
-### The Impact
-Research shows **95% of children with dyslexia can achieve functional literacy** with appropriate intervention. By removing the cost barrier, this project could help millions of children who otherwise wouldn't receive effective support.
-
-See [COMPETITIVE_ANALYSIS.md](./COMPETITIVE_ANALYSIS.md) for detailed market analysis and competitive positioning.
-
-## Current Status
-
-✅ Research phase complete
-✅ Feature design complete
-✅ Technical architecture complete
-✅ Competitive analysis complete
-✅ Mobile-first strategy defined
-✅ LLM integration strategy designed
-✅ Marketing & go-to-market strategy complete
-⬜ Implementation phase - Ready to begin
+- This keeps the codebase readable and avoids Redux-style boilerplate. See docs/STATE_PATTERNS.md.
 
 ## Getting Started
 
@@ -183,25 +121,19 @@ Notes:
 - No backend is wired yet; API calls will 404 unless you proxy or mock.
 
 Next steps:
-- See [STATE_PATTERNS.md](./STATE_PATTERNS.md) for client state patterns.
-- See [TECHNICAL_PLAN.md](./TECHNICAL_PLAN.md) for the end-to-end roadmap.
+- See docs/STATE_PATTERNS.md for client state patterns.
+- See docs/TECHNICAL_PLAN.md for the end-to-end roadmap.
 
 ## Repository Layout
 
 - `frontend/` — React + Vite app (Chakra via `/ui`, TanStack Query + Zustand)
 - `docs/` — All planning and research documentation (see docs/README.md)
 - `decisions/` — Architecture Decision Records (ADRs)
-  
-- `scripts/` — Utility scripts (e.g., batch web fetch)
+- `scripts/` — Utility scripts
 
-## Key Research Findings
+## Research Summary
 
-- Structured Literacy and Orton-Gillingham methods are most effective
-- Computer-assisted instruction is as effective as traditional delivery
-- WCPM (Words Correct Per Minute) is the best fluency metric
-- Special dyslexia fonts (OpenDyslexic, Dyslexie) show no benefit - use Arial
-- Multicomponent interventions targeting multiple skills simultaneously are most effective
-- Adaptive difficulty and spaced repetition improve outcomes
+See docs/RESEARCH.md for the evidence base and docs/PROJECT_SUMMARY.md for an executive overview of findings and recommendations.
 
 ## Contributing
 
