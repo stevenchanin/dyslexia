@@ -18,3 +18,4 @@ Primary planning and research docs are consolidated here under `docs/`.
 - UI SYSTEM OPTIONS: ./UI_SYSTEM_OPTIONS.md
 - CLAUDE: ./CLAUDE.md
 - Brainstorm: ./brainstorm.md
+- Intellectual Property: ./INTELLECTUAL_PROPERTY.md
