@@ -47,3 +47,6 @@ Thumbs.db
 .vercel/
 .netlify/
 
+# Research scrapes (ephemeral outputs)
+research_scrapes/
+research_scrapes_text/
