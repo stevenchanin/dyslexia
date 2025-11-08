@@ -1,27 +1,76 @@
-// Minimal typed fetchers for exercises (example only)
-// This illustrates the React pattern documented in STATE_PATTERNS.md
-export type Exercise = {
-  id: string;
-  module: string;
-  difficulty: number;
-  title?: string;
-  content: unknown;
-};
+// API layer for Sound Identification exercise
+import type {
+  CreateSessionRequest,
+  CreateSessionResponse,
+  FetchRoundsResponse,
+  SubmitAttemptRequest,
+  SubmitAttemptResponse,
+  SessionSummary,
+  ExerciseType,
+} from '../../types/exercises';
 
-export async function fetchExercises(module: string, difficulty: number): Promise<Exercise[]> {
-  // Placeholder implementation
-  const res = await fetch(`/api/exercises?module=${module}&difficulty=${difficulty}`);
-  if (!res.ok) throw new Error('Failed to fetch exercises');
-  return (await res.json()) as Exercise[];
-}
+// Create a new exercise session
+export async function createSession(
+  exerciseType: ExerciseType,
+  difficulty: number,
+  targetRounds?: number
+): Promise<CreateSessionResponse> {
+  const body: CreateSessionRequest = {
+    exerciseType,
+    difficulty,
+    targetRounds,
+  };
 
-export async function submitAttempt(sessionId: string, payload: unknown) {
-  const res = await fetch(`/api/sessions/${sessionId}/submit`, {
+  const res = await fetch('/api/sessions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error('Submit failed');
+
+  if (!res.ok) {
+    throw new Error(`Failed to create session: ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+// Fetch rounds for a session
+export async function fetchRounds(sessionId: string): Promise<FetchRoundsResponse> {
+  const res = await fetch(`/api/sessions/${sessionId}/rounds`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch rounds: ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+// Submit an attempt for a round
+export async function submitAttempt(
+  sessionId: string,
+  attempt: SubmitAttemptRequest
+): Promise<SubmitAttemptResponse> {
+  const res = await fetch(`/api/sessions/${sessionId}/attempts`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(attempt),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to submit attempt: ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+// Get session summary
+export async function getSessionSummary(sessionId: string): Promise<SessionSummary> {
+  const res = await fetch(`/api/sessions/${sessionId}/summary`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch session summary: ${res.statusText}`);
+  }
+
   return res.json();
 }
 
