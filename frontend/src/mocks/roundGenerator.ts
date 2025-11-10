@@ -149,6 +149,9 @@ export function generateRounds(
   count: number,
   seed?: number
 ): SoundIdentificationRound[] {
+  // Save original Math.random
+  const originalRandom = Math.random;
+
   // Use seed for deterministic generation (useful for testing)
   if (seed !== undefined) {
     let s = seed;
@@ -164,6 +167,9 @@ export function generateRounds(
 
   const words = selectWords(difficulty, count, usedWords);
 
+  // Use seed for deterministic IDs, or timestamp for random IDs
+  const idBase = seed !== undefined ? seed : Date.now();
+
   for (let i = 0; i < words.length && i < count; i++) {
     const word = words[i];
     const mode = modes[i % modes.length];
@@ -177,7 +183,7 @@ export function generateRounds(
     const options = [target, ...distractors].sort(() => Math.random() - 0.5);
 
     rounds.push({
-      id: `round-${Date.now()}-${i}`,
+      id: `round-${idBase}-${i}`,
       word: word.word,
       phonemes: word.phonemes,
       mode,
@@ -191,6 +197,9 @@ export function generateRounds(
 
     usedWords.add(word.word);
   }
+
+  // Restore original Math.random
+  Math.random = originalRandom;
 
   return rounds;
 }

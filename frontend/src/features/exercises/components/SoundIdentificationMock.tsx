@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, CardHeader, CardBody, Button, Stack, Heading, Text, Badge, Alert } from '../../../ui';
+import { Card, CardBody, Button, Stack, Heading, Text, Badge, Alert } from '../../../ui';
 import { useExerciseUI } from '../store';
-import { useCreateSession, useRounds, useSubmitAttempt } from '../queries';
+import { useRounds } from '../queries';
+import { useSession, useAttemptLogger } from '../hooks';
+import { SessionSummary } from './SessionSummary';
 import type { SoundIdentificationRound, SoundMode } from '../../../types/exercises';
 
 function targetLabel(mode: SoundMode) {
@@ -18,43 +20,23 @@ function getTarget(round: SoundIdentificationRound) {
 }
 
 export function SoundIdentificationMock() {
-  const [sessionId, setSessionId] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [streak, setStreak] = useState(0);
   const [points, setPoints] = useState(0);
-  const [startTime, setStartTime] = useState<number>(0);
-  const [retries, setRetries] = useState(0);
+
+  // Use new hooks for session management
+  const session = useSession('sound-identification', 2, 10);
+  const attemptLogger = useAttemptLogger(session.sessionId);
 
   const ttsRate = useExerciseUI((s) => s.ttsRate);
   const lowBandwidth = useExerciseUI((s) => s.lowBandwidth);
   const [ttsSupported, setTtsSupported] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  // Create session mutation
-  const createSessionMutation = useCreateSession();
-
   // Fetch rounds query
-  const { data: roundsData, isLoading: roundsLoading } = useRounds(sessionId);
-
-  // Submit attempt mutation
-  const submitMutation = useSubmitAttempt(sessionId || '');
-
-  // Initialize session on mount
-  useEffect(() => {
-    if (!sessionId && !createSessionMutation.isPending) {
-      createSessionMutation.mutate({
-        exerciseType: 'sound-identification',
-        difficulty: 2,
-        targetRounds: 10,
-      }, {
-        onSuccess: (data) => {
-          setSessionId(data.session.id);
-        },
-      });
-    }
-  }, [sessionId, createSessionMutation]);
+  const { data: roundsData, isLoading: roundsLoading } = useRounds(session.sessionId);
 
   // Check TTS support
   useEffect(() => {
@@ -68,12 +50,12 @@ export function SoundIdentificationMock() {
   const round = rounds[currentIndex];
   const target = useMemo(() => round ? getTarget(round) : '', [round]);
 
-  // Start timer when new round loads
+  // Start timing when new round loads
   useEffect(() => {
     if (round && !selected) {
-      setStartTime(Date.now());
+      attemptLogger.startRound(round.id);
     }
-  }, [round, selected]);
+  }, [round, selected, attemptLogger]);
 
   const speakWord = () => {
     if (!ttsSupported || lowBandwidth || !round) return;
@@ -107,21 +89,17 @@ export function SoundIdentificationMock() {
       setPoints((p) => p + 5);
     } else {
       setStreak(0);
-      setRetries((r) => r + 1);
+      attemptLogger.trackRetry();
     }
 
-    // Calculate response time
-    const responseTimeMs = Date.now() - startTime;
-
-    // Submit attempt to API
-    submitMutation.mutate({
+    // Submit attempt to API using attemptLogger
+    attemptLogger.submitAttempt({
       roundId: round.id,
       selectedOption: opt,
       correctOption: target,
       isCorrect,
-      responseTimeMs,
       mode: round.mode,
-      retries,
+      responseTimeMs: 0, // Will be calculated by attemptLogger
     });
   };
 
@@ -130,15 +108,24 @@ export function SoundIdentificationMock() {
       setCurrentIndex((i) => i + 1);
       setSelected(null);
       setCorrect(null);
-      setRetries(0);
+      session.roundComplete();
     } else {
-      // Session complete - could show summary here
-      console.log('Session complete!');
+      // Last round - complete the session
+      session.roundComplete();
     }
   };
 
+  const handleRestart = () => {
+    session.reset();
+    setCurrentIndex(0);
+    setSelected(null);
+    setCorrect(null);
+    setStreak(0);
+    setPoints(0);
+  };
+
   // Loading state
-  if (!sessionId || roundsLoading || !round) {
+  if (!session.isReady || roundsLoading || !round) {
     return (
       <Stack spacing={4}>
         <Heading as="h2" size="lg">Sound Detective</Heading>
@@ -147,8 +134,25 @@ export function SoundIdentificationMock() {
     );
   }
 
-  // Check if session is complete
-  const isSessionComplete = currentIndex >= rounds.length - 1 && correct === true;
+  // Show summary when session is complete
+  if (session.isComplete) {
+    return (
+      <SessionSummary
+        summary={{
+          sessionId: session.sessionId || '',
+          totalRounds: session.roundsCompleted,
+          correctRounds: Math.floor(session.roundsCompleted * (points / (session.roundsCompleted * 5))),
+          accuracy: (points / (session.roundsCompleted * 5)) * 100,
+          averageResponseTime: 2000, // Placeholder
+          maxStreak: streak,
+          pointsEarned: points,
+          modeStats: [],
+        }}
+        elapsedTimeMs={session.getElapsedTime()}
+        onRestart={handleRestart}
+      />
+    );
+  }
 
   return (
     <Stack spacing={4}>
@@ -170,7 +174,6 @@ export function SoundIdentificationMock() {
 
             <Stack direction="row" align="center" spacing={3}>
               <Button
-                aria-label="Play word audio"
                 leftIcon={<span>▶︎</span>}
                 variant="outline"
                 onClick={speakWord}
@@ -210,35 +213,18 @@ export function SoundIdentificationMock() {
               <Alert status="warning" description="Almost! Listen again and find the right sound."></Alert>
             )}
 
-            {correct && !isSessionComplete && (
+            {correct && (
               <Alert status="success" description="Nice! That's the right sound."></Alert>
-            )}
-
-            {isSessionComplete && (
-              <Alert status="success" description="🎉 Great job! You completed the session!"></Alert>
             )}
 
             <Stack direction="row" justify="flex-end">
               <Button onClick={next} isDisabled={!correct} colorScheme="blue">
-                {isSessionComplete ? 'Finish' : 'Next'}
+                Next
               </Button>
             </Stack>
           </Stack>
         </CardBody>
       </Card>
-
-      {submitMutation.data?.sessionSummary && (
-        <Card>
-          <CardBody>
-            <Stack spacing={3}>
-              <Heading as="h3" size="md">Session Summary</Heading>
-              <Text>Accuracy: {submitMutation.data.sessionSummary.accuracy.toFixed(1)}%</Text>
-              <Text>Max Streak: {submitMutation.data.sessionSummary.maxStreak}</Text>
-              <Text>Points Earned: {submitMutation.data.sessionSummary.pointsEarned}</Text>
-            </Stack>
-          </CardBody>
-        </Card>
-      )}
     </Stack>
   );
 }
