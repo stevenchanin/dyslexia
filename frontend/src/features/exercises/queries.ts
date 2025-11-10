@@ -1,23 +1,64 @@
-// TanStack Query hooks for server state (example only)
+// TanStack Query hooks for Sound Identification exercise
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchExercises, submitAttempt } from './api';
+import { createSession, fetchRounds, submitAttempt, getSessionSummary } from './api';
+import type { ExerciseType, SubmitAttemptRequest } from '../../types/exercises';
 
-export function useExercises(module: string, difficulty: number) {
-  return useQuery({
-    queryKey: ['exercises', module, difficulty],
-    queryFn: () => fetchExercises(module, difficulty),
-    staleTime: 5 * 60 * 1000,
+// Create a new session
+export function useCreateSession() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      exerciseType,
+      difficulty,
+      targetRounds,
+    }: {
+      exerciseType: ExerciseType;
+      difficulty: number;
+      targetRounds?: number;
+    }) => createSession(exerciseType, difficulty, targetRounds),
+    onSuccess: (data) => {
+      // Cache the new session
+      qc.setQueryData(['session', data.session.id], data.session);
+    },
   });
 }
 
+// Fetch rounds for a session
+export function useRounds(sessionId: string | null) {
+  return useQuery({
+    queryKey: ['rounds', sessionId],
+    queryFn: () => {
+      if (!sessionId) throw new Error('Session ID required');
+      return fetchRounds(sessionId);
+    },
+    enabled: !!sessionId,
+    staleTime: Infinity, // Rounds don't change once generated
+  });
+}
+
+// Submit an attempt
 export function useSubmitAttempt(sessionId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (payload: unknown) => submitAttempt(sessionId, payload),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['progress'] });
-      qc.invalidateQueries({ queryKey: ['session', sessionId] });
+    mutationFn: (attempt: SubmitAttemptRequest) => submitAttempt(sessionId, attempt),
+    onSuccess: (data) => {
+      // If session is complete, invalidate session summary
+      if (data.sessionSummary) {
+        qc.setQueryData(['session-summary', sessionId], data.sessionSummary);
+      }
     },
+  });
+}
+
+// Get session summary
+export function useSessionSummary(sessionId: string | null) {
+  return useQuery({
+    queryKey: ['session-summary', sessionId],
+    queryFn: () => {
+      if (!sessionId) throw new Error('Session ID required');
+      return getSessionSummary(sessionId);
+    },
+    enabled: !!sessionId,
   });
 }
 
