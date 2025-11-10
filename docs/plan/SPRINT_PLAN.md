@@ -59,10 +59,12 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
 ## Sprint 6.5 — Pedagogy Engine & Decodables Integration (Mini)
 - Story: Integrate corrective feedback engine into Module 1 exercises
   - AC: Error observations routed; cueing ladder shows prompts/scaffolds/model; TTS and highlights work offline
+  - Status: Reference integration complete in `SoundIdentificationMock`; remaining Module 1 exercises pending
 - Story: Enforce mastery gates from phonics sequence
   - AC: Stage advancement blocked until thresholds met; spaced review scheduled
 - Story: Decodable text loader + schema validation in CI
-  - AC: JSON Schema validation for decodables; example content renders; lints on PR
+  - AC: Validation for decodables runs in CI; example content renders; lints on PR
+  - Status: Initial validator script and GitHub Actions workflow added; in-app loader pending
 
 ## Sprint 6 — Module 2/3 Seed + Gamification
 - Story: Letter-sound match (Module 2.1)

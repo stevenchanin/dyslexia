@@ -22,15 +22,18 @@ Use this plan to track progress across design, implementation, testing, and mark
 
 ### 2.2 Exercise Engine & Module 1
 - [ ] Pluggable exercise engine (prompts, timers, attempts)
-- [ ] Sound Identification (begin/middle/end)
+- [x] Sound Identification (begin/middle/end) — reference implementation present
 - [ ] Phoneme Count
 - [ ] Sound Substitution (“Sound Swapper”)
 - [ ] Blending (“Sound Builder”)
-- [ ] Corrective feedback engine integrated (prompt → scaffold → model → step-back)
+- [x] Corrective feedback engine integrated (reference: SoundIdentificationMock)
+- [ ] Corrective feedback engine integrated across all Module 1 exercises
 - [ ] Mastery gates enforced via scope thresholds
 
 ### 2.3 Decodables & Fluency
-- [ ] Decodable text loader + schema validation in CI
+- [x] Decodable JSON validation in CI (workflow + validator script)
+- [ ] Decodable text loader in app
+- [ ] Decodable reader component with repeated reading
 - [ ] Decodable reader component with repeated reading
 - [ ] Manual WCPM scoring tool
 - [ ] ASR WCPM scoring (optional) with validation + manual fallback
@@ -53,9 +56,10 @@ Use this plan to track progress across design, implementation, testing, and mark
 - [ ] Cloud storage plan for audio (later phase)
 
 ## 3. Testing & QA
-- [ ] Unit tests: pedagogy engine (feedback, mastery)
+- [x] Unit tests: pedagogy engine — feedback cueing ladder
+- [ ] Unit tests: pedagogy engine — mastery and review scheduler
 - [ ] Unit tests: exercise flows and data stores
-- [ ] JSON Schema validation for decodables in CI
+- [x] Decodable JSON validation in CI
 - [ ] Accessibility audit (axe, screen reader pass)
 - [ ] Performance budget: <200KB initial JS, TTI <5s (3G)
 - [ ] ASR validation study (if ASR used): compare to human WCPM
@@ -82,4 +86,3 @@ Use this plan to track progress across design, implementation, testing, and mark
 - [ ] Low-cost pilot data collection (docs/testing/)
 - [ ] Iteration plan based on early evidence (WCPM growth, decoding accuracy)
 - [ ] A/B experiments for feedback variants (later)
-
