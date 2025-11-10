@@ -56,6 +56,14 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
 - Story: HCI polish and accessibility quick pass
   - AC: Keyboard/touch parity; color contrast AA; labels/aria on core views
 
+## Sprint 6.5 — Pedagogy Engine & Decodables Integration (Mini)
+- Story: Integrate corrective feedback engine into Module 1 exercises
+  - AC: Error observations routed; cueing ladder shows prompts/scaffolds/model; TTS and highlights work offline
+- Story: Enforce mastery gates from phonics sequence
+  - AC: Stage advancement blocked until thresholds met; spaced review scheduled
+- Story: Decodable text loader + schema validation in CI
+  - AC: JSON Schema validation for decodables; example content renders; lints on PR
+
 ## Sprint 6 — Module 2/3 Seed + Gamification
 - Story: Letter-sound match (Module 2.1)
   - AC: Digraphs & vowel teams supported; spaced repetition scheduling stub
@@ -71,6 +79,7 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
   - AC: Print CSS; includes WCPM trend, skill mastery, streak; private by default
 - Story: Decodable text generator v1 (brainstorm #10)
   - AC: Rule-based sentences based on grapheme inventory; basic templates
+  - Dep: Uses `phonics-sequence.json` and honors `allowedGraphemes`
 - Story: Charts: progress over time (recharts/Chart.js)
   - AC: WCPM and mastery charts responsive on mobile; cached for offline view
 

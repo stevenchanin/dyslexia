@@ -12,3 +12,8 @@ This directory organizes UX/feature specs by instructional module.
 - One markdown file per exercise/spec.
 - Include: goals, flow, micro-interactions, a11y, metrics, edge cases, copy, and a simple wireframe.
 - Keep mobile-first constraints explicit.
+
+## Cross-Cutting Specs
+- Phonics scope & decodable tagging: `./phonics-sequence.md`
+  - Data files: `frontend/src/content/phonics/phonics-sequence.json`, `frontend/src/schemas/decodableText.schema.json`, example at `frontend/src/content/phonics/examples/decodable-s1-001.json`
+- Pedagogy engine (feedback & mastery): see `frontend/src/pedagogy/*`

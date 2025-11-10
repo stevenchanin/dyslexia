@@ -20,3 +20,5 @@ Primary planning and research docs are consolidated here under `docs/`.
 - Brainstorm: ./brainstorm.md
 - Intellectual Property: ./INTELLECTUAL_PROPERTY.md
  - Module Specs Index: ./specs/README.md
+ - Phonics Scope & Decodable Tagging: ./specs/phonics-sequence.md
+ - Source Cache (key references): ./sources/

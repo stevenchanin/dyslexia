@@ -68,6 +68,12 @@ See STATE_PATTERNS.md for examples and conventions.
 - User preferences and settings
 - Small, simple key-value data
 
+#### Curriculum Data & Pedagogy
+- Phonics scope-and-sequence: `frontend/src/content/phonics/phonics-sequence.json` defines ordered stages with grapheme inventories, patterns, examples, and mastery thresholds. Drives item generation, gating, and review.
+- Decodable text tagging: `frontend/src/schemas/decodableText.schema.json` standardizes metadata for controlled texts; example at `frontend/src/content/phonics/examples/decodable-s1-001.json`.
+- Corrective feedback engine: `frontend/src/pedagogy/*` contains a rule-based system for error taxonomy, vetted hints, cueing ladder (prompt → scaffold → model → step-back), and mastery/review helpers.
+- Integration: Exercise components emit error observations; the feedback engine returns the next cue and hint. Mastery gates are checked against scope thresholds; spaced review schedules are derived from mastery levels.
+
 #### Audio/Voice
 **Web Audio API + Web Speech API** (Browser-Native, Free)
 - Text-to-speech (TTS) for accessibility
@@ -75,6 +81,9 @@ See STATE_PATTERNS.md for examples and conventions.
 - MediaRecorder API for voice recording
 - No external dependencies, no cost
 - Works offline (if audio pre-cached)
+
+Validation for ASR scoring
+- If using ASR for WCPM, validate automated scores against human ratings on child speech samples; maintain a manual scoring fallback.
 
 #### Charts/Visualization
 **Lightweight Charting Library**
