@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "language": "en-US",
+  "stages": [
+    {
+      "id": "s1_cvc",
+      "name": "Short vowels CVC",
+      "order": 1,
+      "graphemes": ["a","e","i","o","u","b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","x","y","z"],
+      "patterns": ["CVC"],
+      "examples": ["cat","bed","sit","cot","sun"],
+      "mastery": { "accuracy": 0.9, "minItems": 40, "minSessions": 2 }
+    },
+    {
+      "id": "s2_digraphs_blends",
+      "name": "Common digraphs and blends",
+      "order": 2,
+      "graphemes": ["ch","sh","th","wh","ck","qu","bl","cl","fl","gl","pl","br","cr","dr","fr","gr","pr","tr","sc","sk","sm","sn","sp","st","sw"],
+      "patterns": ["CCVC","CVCC","digraphs"],
+      "examples": ["ship","chop","thin","whip","clock","brim","grin","stab"],
+      "mastery": { "accuracy": 0.9, "minItems": 50, "minSessions": 2 }
+    },
+    {
+      "id": "s3_cvce_long_vowels",
+      "name": "CVCe and long vowels",
+      "order": 3,
+      "graphemes": ["a_e","e_e","i_e","o_e","u_e","ay","ai","ee","ea","oa","ow","ie","igh","y_long_i"],
+      "patterns": ["CVCe","long-vowel"],
+      "examples": ["cake","these","kite","home","cube","rain","boat","snow"],
+      "mastery": { "accuracy": 0.9, "minItems": 50, "minSessions": 2 }
+    },
+    {
+      "id": "s4_r_controlled",
+      "name": "R-controlled vowels",
+      "order": 4,
+      "graphemes": ["ar","er","ir","or","ur"],
+      "patterns": ["r-controlled"],
+      "examples": ["car","fern","bird","corn","turn"],
+      "mastery": { "accuracy": 0.9, "minItems": 40, "minSessions": 2 }
+    },
+    {
+      "id": "s5_vowel_teams_diphthongs",
+      "name": "Vowel teams and diphthongs",
+      "order": 5,
+      "graphemes": ["oi","oy","ou","ow","au","aw","ew","ui","oo_short","oo_long"],
+      "patterns": ["vowel-team","diphthong"],
+      "examples": ["coin","boy","out","cow","haul","saw","chew","suit","book","moon"],
+      "mastery": { "accuracy": 0.9, "minItems": 50, "minSessions": 2 }
+    },
+    {
+      "id": "s6_syllables",
+      "name": "Syllable types and division",
+      "order": 6,
+      "graphemes": ["closed","open","magic-e","vowel-team","r-controlled","consonant-le"],
+      "patterns": ["two-syllable","three-syllable"],
+      "examples": ["robin","open","table","paper","market"],
+      "mastery": { "accuracy": 0.9, "minItems": 60, "minSessions": 2 }
+    },
+    {
+      "id": "s7_morphology",
+      "name": "Common morphology",
+      "order": 7,
+      "graphemes": ["un-","re-","pre-","-s","-es","-ed","-ing","-er","-est"],
+      "patterns": ["prefix","suffix","base-word"],
+      "examples": ["redo","unpack","jumped","runner","biggest"],
+      "mastery": { "accuracy": 0.9, "minItems": 60, "minSessions": 2 }
+    }
+  ]
+}
+

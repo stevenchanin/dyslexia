@@ -1,0 +1,31 @@
+{
+  "id": "dec-s1-001",
+  "title": "Sam and the Cat",
+  "language": "en-US",
+  "stageId": "s1_cvc",
+  "allowedGraphemes": ["a","e","i","o","u","b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","x","y","z"],
+  "tokens": [
+    {"type": "word", "text": "Sam", "decodable": true, "gpc": [{"grapheme":"S","phoneme":"/s/"},{"grapheme":"a","phoneme":"/æ/"},{"grapheme":"m","phoneme":"/m/"}]},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "had", "decodable": true, "gpc": [{"grapheme":"h"},{"grapheme":"a"},{"grapheme":"d"}]},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "a", "decodable": true},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "cat", "decodable": true, "gpc": [{"grapheme":"c"},{"grapheme":"a"},{"grapheme":"t"}]},
+    {"type": "punct", "text": "."},
+    {"type": "newline", "text": "\n"},
+    {"type": "word", "text": "Sam", "decodable": true},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "sat", "decodable": true},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "and", "decodable": true},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "the", "decodable": false, "unknownPatterns": ["the"]},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "cat", "decodable": true},
+    {"type": "space", "text": " "},
+    {"type": "word", "text": "sat", "decodable": true},
+    {"type": "punct", "text": "."}
+  ]
+}
+

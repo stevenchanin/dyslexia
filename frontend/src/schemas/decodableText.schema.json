@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/decodableText.schema.json",
+  "title": "Decodable Text Metadata",
+  "type": "object",
+  "required": ["id", "title", "stageId", "language", "tokens"],
+  "properties": {
+    "id": { "type": "string" },
+    "title": { "type": "string" },
+    "language": { "type": "string", "default": "en-US" },
+    "stageId": { "type": "string", "description": "Phonics scope stage ID this text aligns to" },
+    "allowedGraphemes": { "type": "array", "items": { "type": "string" } },
+    "prohibitedGraphemes": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "type"],
+        "properties": {
+          "text": { "type": "string" },
+          "type": { "enum": ["word", "punct", "space", "newline"] },
+          "decodable": { "type": "boolean" },
+          "unknownPatterns": { "type": "array", "items": { "type": "string" } },
+          "gpc": {
+            "type": "array",
+            "description": "Optional grapheme–phoneme breakdown for the word token",
+            "items": {
+              "type": "object",
+              "required": ["grapheme"],
+              "properties": {
+                "grapheme": { "type": "string" },
+                "phoneme": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
