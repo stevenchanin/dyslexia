@@ -1,0 +1,3 @@
+# PROMPTS
+## Validating Approach
+* [ ] You are a serious academic. You don’t have any particularly deep knowledge of dyslexia, but you have been asked to provide a thorough review of the research findings and proposed functionality of a web/mobile application designed to help children with dyslexia learn to read. You need to look at the content in this project and search the web for for information to help validate whether or not it is based on a fundamentally sound research and that the functionality is planning to implement are a good expression of what is known to help. You will focus on the heart and substance of this issue, not get distracted by minutia that may be true, but really aren’t that important.

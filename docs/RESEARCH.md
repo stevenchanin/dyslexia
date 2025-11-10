@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Research shows that approximately **95% of children with dyslexia can achieve functional literacy** when they receive appropriate evidence-based intervention. Computer-assisted instruction shows comparable effectiveness to traditional delivery models, making software-based intervention highly viable.
+Early, high‑fidelity, evidence‑based instruction enables the vast majority of students with reading difficulties, including dyslexia, to reach functional literacy. Outcomes vary with age of identification, instructional intensity and fidelity, and co‑occurring conditions. Computer‑assisted instruction can effectively support practice and reinforcement when grounded in explicit instruction, though effects vary by design and implementation.
 
 ## Evidence-Based Intervention Methods
 
@@ -17,15 +17,15 @@ The most effective approach that explicitly teaches the logic behind the English
 5. **Connected-Text Reading** - Reading fluency in context
 6. **Comprehension** - Understanding meaning while reading
 
-### 2. Orton-Gillingham Method
-Research shows this is one of the most effective dyslexia intervention approaches:
-- Structured multisensory approach
+### 2. Orton-Gillingham and Related Approaches
+Approaches commonly associated with Orton‑Gillingham align with structured literacy principles (explicit, systematic, cumulative, diagnostic). The strongest evidence base supports these principles themselves rather than any single branded program.
+- Multisensory techniques used in service of explicit instruction
 - Explicit teaching of reading, writing, and spelling
-- Breaks down concepts into simple building blocks
-- Progressively builds on foundational skills
+- Concepts broken into teachable steps with cumulative review
+- Progress builds systematically on mastered skills
 
 ### 3. Technology-Assisted Instruction (2025 Research)
-Recent studies demonstrate that intensive, comprehensive, multicomponent interventions delivered through technology show comparable student progress to traditional models.
+Recent reviews suggest technology‑assisted interventions can yield small to moderate gains, especially as guided practice adjuncts to explicit instruction. Effect sizes vary by implementation quality and alignment to core reading components.
 
 ## Computer-Based Intervention Programs - Key Features
 
@@ -41,10 +41,8 @@ Recent studies demonstrate that intensive, comprehensive, multicomponent interve
    - Repetition needs to be gamified or made interactive
 
 3. **Targeted Skill Development**
-   - Processing speed exercises
-   - Working memory training
-   - Attention span improvement
-   - Sequencing skills
+   - Core reading skills first: phonological awareness, decoding/encoding, word reading, connected‑text fluency, vocabulary, comprehension
+   - Supplemental (optional): practice that engages attention/working memory when tightly coupled to reading tasks
 
 4. **Multimodal Presentation**
    - Uses sounds and slowed language that speeds up progressively
@@ -84,6 +82,21 @@ Focus immediately on:
 3. Handwriting practice
 4. Building to connected text reading
 
+## Instructional Scope and Sequence (Guidance)
+
+A clear, cumulative scope‑and‑sequence is essential. All decoding/encoding activities and connected texts should align to taught code.
+
+Suggested placeholder sequence (to be adapted to final curriculum):
+- Consonants and short vowels; CVC words; basic blending/segmenting
+- Common digraphs: ch, sh, th, wh, ck; initial/final blends
+- CVCe (silent‑e), long vowels; soft c/g
+- R‑controlled vowels: ar, er, ir, or, ur
+- Vowel teams/diphthongs: ai/ay, ee/ea, oa/ow, oi/oy, ou/ow, aw/au, ew/ui, etc.
+- Syllable types and division: closed, open, magic‑e, vowel team, r‑controlled, consonant‑le
+- Multisyllabic decoding strategies; morphology (common prefixes/suffixes, base words)
+
+Decodable texts and fluency passages should be controlled to the currently taught patterns to minimize guessing and support orthographic mapping.
+
 ## Progress Measurement & Assessment
 
 ### Key Metrics
@@ -97,6 +110,7 @@ Focus immediately on:
 - **WCPM (Words Correct Per Minute)** - Primary metric
 - Highly sensitive to growth
 - Better than traditional standardized measures for monitoring
+ - If using automated speech recognition (ASR) to score oral reading, validate against human scoring with your target population; provide a manual fallback due to child‑speech variability, background noise, and latency.
 
 #### 3. Literal Comprehension
 - Understanding of text meaning
@@ -187,6 +201,15 @@ Modern screeners use predictive models combining:
 - Maintain appropriate challenge level
 - Prevent frustration from too-difficult tasks
 - Prevent boredom from too-easy tasks
+
+## Implementation Recommendations (Synthesis)
+
+- Emphasize structured literacy principles: explicit, systematic, cumulative instruction across phonological awareness, phonics/decoding, connected‑text fluency, vocabulary, and comprehension.
+- Anchor all instruction to a written scope‑and‑sequence; align exercises, encoding tasks, and decodable/controlled texts to taught code.
+- Define mastery criteria and advancement rules; use consistent corrective feedback (e.g., model–lead–test, immediate return to point of error).
+- Use repeated reading with WCPM and accuracy tracking for fluency; graph growth over time.
+- Treat ASR‑based WCPM as a Tier‑2 enhancement; validate before using for placement or high‑stakes decisions.
+- Keep domain‑general cognitive training supplemental; prioritize reading‑specific practice tightly tied to phonology/orthography.
 
 ## References & Sources
 

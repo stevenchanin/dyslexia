@@ -6,6 +6,19 @@ A comprehensive, computer-based reading intervention program that provides engag
 
 ## Core Exercise Modules
 
+### Instructional Scope and Sequence (Required)
+
+All decoding/encoding exercises and connected texts must align to a clear, cumulative phonics scope‑and‑sequence. Placeholder sequence (adapt during curriculum development):
+- Consonants and short vowels; CVC words
+- Common digraphs (ch, sh, th, wh, ck) and initial/final blends
+- CVCe (silent‑e), long vowels; soft c/g
+- R‑controlled vowels (ar, er, ir, or, ur)
+- Vowel teams/diphthongs (ai/ay, ee/ea, oa/ow, oi/oy, ou/ow, aw/au, ew/ui, etc.)
+- Syllable types and division (closed, open, magic‑e, vowel team, r‑controlled, consonant‑le)
+- Multisyllabic decoding strategies; morphology (common prefixes/suffixes)
+
+Decodable passages and fluency texts should be controlled to taught patterns to support orthographic mapping and discourage guessing.
+
 ### Module 1: Phonological Awareness Training
 
 #### 1.1 Sound Identification
@@ -69,6 +82,11 @@ A comprehensive, computer-based reading intervention program that provides engag
 - Immediate correction with sound breakdown
 - Adaptive difficulty based on performance
 
+#### 2.3 Decodable Text Alignment
+- Provide short decodable sentences/passages aligned to the current code knowledge.
+- Avoid untaught grapheme–phoneme patterns in controlled texts.
+- Include repeated readings to consolidate accuracy then build rate.
+
 ### Module 3: Word Recognition & Fluency
 
 #### 3.1 Sight Word Mastery
@@ -97,6 +115,8 @@ A comprehensive, computer-based reading intervention program that provides engag
 - Progressive difficulty levels
 - Visual progress bars and goals
 - Celebrate personal bests
+
+Note: If automated speech recognition (ASR) is used to compute WCPM, validate against human scoring with the target population and provide a manual fallback.
 
 ### Module 4: Reading Comprehension
 
@@ -330,3 +350,7 @@ A comprehensive, computer-based reading intervention program that provides engag
 2. Advanced analytics for educators
 3. Content library expansion
 4. Multi-device support
+### Mastery and Advancement
+- Define per‑skill mastery criteria (e.g., ≥90% accuracy across two sessions with acceptable response time) before advancing difficulty.
+- Use consistent error‑correction routines (model–lead–test; immediate return to the point of error; reattempt then spaced review).
+- Gate new code elements until prerequisites are mastered; schedule automated spaced review of previously mastered items.
