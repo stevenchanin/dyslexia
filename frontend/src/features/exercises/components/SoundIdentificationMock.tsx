@@ -5,6 +5,8 @@ import { useRounds } from '../queries';
 import { useSession, useAttemptLogger } from '../hooks';
 import { SessionSummary } from './SessionSummary';
 import type { SoundIdentificationRound, SoundMode } from '../../../types/exercises';
+import type { ErrorObservation } from '../../../pedagogy/errorTaxonomy';
+import { selectFeedbackAction } from '../../../pedagogy/feedbackEngine';
 
 function targetLabel(mode: SoundMode) {
   if (mode === 'begin') return 'Find the beginning sound';
@@ -25,6 +27,8 @@ export function SoundIdentificationMock() {
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [streak, setStreak] = useState(0);
   const [points, setPoints] = useState(0);
+  const [consecutiveErrors, setConsecutiveErrors] = useState(0);
+  const [hintText, setHintText] = useState<string | null>(null);
 
   // Use new hooks for session management
   const session = useSession('sound-identification', 2, 10);
@@ -87,9 +91,37 @@ export function SoundIdentificationMock() {
     if (isCorrect) {
       setStreak((s) => s + 1);
       setPoints((p) => p + 5);
+      setConsecutiveErrors(0);
+      setHintText(null);
     } else {
       setStreak(0);
       attemptLogger.trackRetry();
+      // Build a minimal error observation for the pedagogy engine
+      const err: ErrorObservation = {
+        domain: 'phoneme-awareness',
+        type: 'sound-position-wrong',
+        target,
+        attemptText: opt
+      };
+      setConsecutiveErrors((e) => e + 1);
+      const action = selectFeedbackAction({
+        attemptCount: (session.roundsCompleted || 0) + 1,
+        consecutiveErrors: consecutiveErrors + 1,
+        lastError: err
+      });
+      if (action.hint?.text) {
+        setHintText(action.hint.text);
+        // Optional: speak the hint via TTS if available
+        if (ttsSupported && !lowBandwidth) {
+          try {
+            const synth = window.speechSynthesis;
+            const u = new SpeechSynthesisUtterance(action.hint.text);
+            u.lang = 'en-US';
+            u.rate = Math.max(0.5, Math.min(2, (ttsRate || 1) * 0.95));
+            synth.speak(u);
+          } catch {}
+        }
+      }
     }
 
     // Submit attempt to API using attemptLogger
@@ -108,6 +140,8 @@ export function SoundIdentificationMock() {
       setCurrentIndex((i) => i + 1);
       setSelected(null);
       setCorrect(null);
+      setConsecutiveErrors(0);
+      setHintText(null);
       session.roundComplete();
     } else {
       // Last round - complete the session
@@ -122,6 +156,8 @@ export function SoundIdentificationMock() {
     setCorrect(null);
     setStreak(0);
     setPoints(0);
+    setConsecutiveErrors(0);
+    setHintText(null);
   };
 
   // Loading state
@@ -210,7 +246,10 @@ export function SoundIdentificationMock() {
             </Stack>
 
             {correct === false && (
-              <Alert status="warning" description="Almost! Listen again and find the right sound."></Alert>
+              <Alert
+                status="warning"
+                description={hintText ? `Almost! ${hintText}` : 'Almost! Listen again and find the right sound.'}
+              ></Alert>
             )}
 
             {correct && (
