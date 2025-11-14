@@ -94,44 +94,66 @@ Validation for ASR scoring
 
 ### Backend
 
-#### API Server: Node.js + Express or Python + FastAPI
-**Node.js Option:**
-- Consistent language with frontend (TypeScript)
-- Excellent for real-time features
-- Large package ecosystem
+#### Backend-as-a-Service: Supabase
+**Why Supabase:**
+- Built on PostgreSQL - production-grade relational database
+- Replaces multiple services (Auth + Database + Storage + Real-time)
+- Generous free tier perfect for nonprofit/free app model
+- Auto-generated REST and GraphQL APIs
+- Row Level Security (RLS) for data protection
+- Real-time subscriptions out of the box
+- Open-source and self-hostable if needed
 
-**Python Option:**
-- Better for ML/AI features (adaptive learning algorithms)
-- Data analysis libraries (pandas, numpy)
-- Natural language processing (NLTK, spaCy)
-
-**Recommendation: Start with Node.js/TypeScript for consistency, migrate to Python microservices if ML complexity grows**
+**What Supabase Provides:**
+1. **PostgreSQL Database** - Managed, with automatic backups
+2. **Authentication** - Email/password, OAuth providers, magic links
+3. **Storage** - S3-compatible object storage for audio files
+4. **Real-time** - WebSocket subscriptions for live updates
+5. **Edge Functions** - Serverless Deno functions for custom logic
+6. **Client Libraries** - Official TypeScript/JavaScript SDK
 
 #### Database
-**Primary: PostgreSQL**
+**Supabase PostgreSQL**
 - Relational structure for user data, progress, exercises
-- Strong data integrity
-- Excellent JSON support for flexible data
-- Proven scalability
+- Strong data integrity with foreign keys and constraints
+- Excellent JSONB support for flexible exercise data
+- Built-in full-text search
+- Automatic REST API generation
+- PostGIS extension available for future location features
 
-**Caching/Sessions: Redis**
-- Fast session management
-- Cache frequently accessed data
-- Real-time features (leaderboards, live updates)
-
-**File Storage: Cloudflare R2 or Backblaze B2** (cheaper than S3)
+#### File Storage
+**Supabase Storage**
+- S3-compatible object storage
 - Audio files (phoneme sounds, word pronunciations)
-- User voice recordings
+- User voice recordings (with automatic deletion policies)
 - Images and visual assets
-- CDN for global distribution
-- Critical for mobile data conservation
+- CDN integration via Supabase CDN
+- Access policies integrated with RLS
+- Automatic image transformations/optimization
 
 #### Authentication
-**Auth0 or Firebase Authentication**
-- Secure user management
-- Social login options
-- COPPA compliance for children
-- Parent/educator account types
+**Supabase Auth**
+- Secure user management with JWT tokens
+- Email/password, magic links, OAuth providers
+- Built-in email templates for verification
+- Parent/educator account types via user metadata
+- Row Level Security for data isolation
+
+**⚠️ COPPA Compliance Note:**
+Since the app targets children under 13, we must:
+- Implement parental consent flow before child account creation
+- Research Supabase Auth's COPPA compliance status
+- Consider age-gated registration requiring parent email
+- May need custom edge function for consent verification
+- Alternative: Keep Supabase for students 13+, add custom consent layer for younger users
+
+#### Edge Functions (Optional)
+**Supabase Edge Functions** (Deno runtime)
+- Custom business logic (adaptive learning algorithms)
+- Audio processing pipelines
+- WCPM calculation from speech-to-text results
+- Integration with external AI services (if needed)
+- Runs at the edge for low latency
 
 ### Audio Processing
 
@@ -171,26 +193,32 @@ Validation for ASR scoring
 ### Deployment & Infrastructure
 
 #### Hosting
-**Frontend: Vercel or Netlify**
-- Automatic deployments
-- Global CDN
-- Great developer experience
-- Free tier available
+**Frontend: Vercel, Netlify, or Cloudflare Pages**
+- Automatic deployments from Git
+- Global CDN for PWA assets
+- Free tier perfect for MVP
+- Excellent developer experience
+- Zero-config HTTPS
 
-**Backend: Railway, Render, or AWS**
-- Easy PostgreSQL hosting
-- Environment management
-- Scalable infrastructure
+**Backend: Supabase Cloud**
+- Fully managed PostgreSQL database
+- Built-in CDN for storage assets
+- Automatic scaling
+- Daily backups included
+- Global edge network
 
-**Full Stack Alternative: AWS Amplify**
-- Complete solution (frontend, backend, auth, database)
-- Pay-as-you-grow pricing
-- Strong mobile support
+**Architecture Simplicity:**
+- No separate backend server needed
+- No infrastructure management
+- Frontend connects directly to Supabase via client SDK
+- Edge Functions deploy like serverless functions (optional)
 
 #### CI/CD
 **GitHub Actions**
-- Automated testing
-- Deployment pipelines
+- Automated testing (Vitest, Playwright)
+- Linting and type checking
+- Automatic frontend deployments (Vercel/Netlify)
+- Supabase migration automation
 - Code quality checks
 
 ### Monitoring & Analytics
@@ -213,51 +241,45 @@ Validation for ASR scoring
 
 ## System Architecture
 
-### High-Level Architecture
+### High-Level Architecture (Supabase)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                     Client Layer                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │   Web App    │  │  Desktop App │  │  Mobile App  │  │
-│  │  (React TS)  │  │  (Electron)  │  │(React Native)│  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│                  Progressive Web App                     │
+│              (React 18 + TypeScript + Vite)              │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Service Workers (Workbox) - Offline Support     │  │
+│  │  IndexedDB (Dexie) - Local Data Cache            │  │
+│  │  Supabase Client SDK - Auth/DB/Storage           │  │
+│  └──────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
                            │
-                           │ HTTPS / REST API / GraphQL
+              HTTPS / WebSocket / REST / GraphQL
+                           │
                            ▼
 ┌─────────────────────────────────────────────────────────┐
-│                    API Gateway Layer                     │
-│                  (Express / FastAPI)                     │
+│                  SUPABASE PLATFORM                       │
 │  ┌────────────────────────────────────────────────────┐ │
-│  │  Authentication Middleware (Auth0 / Firebase)      │ │
-│  │  Rate Limiting │ Request Validation │ CORS         │ │
+│  │           Supabase Auth (JWT)                      │ │
+│  │  Email/Password │ OAuth │ Magic Links │ RLS       │ │
 │  └────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
-                           │
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                   Application Services                   │
-│  ┌────────────┐  ┌──────────────┐  ┌────────────────┐  │
-│  │   User     │  │   Exercise   │  │    Progress    │  │
-│  │  Service   │  │   Service    │  │    Service     │  │
-│  └────────────┘  └──────────────┘  └────────────────┘  │
-│  ┌────────────┐  ┌──────────────┐  ┌────────────────┐  │
-│  │  Adaptive  │  │    Audio     │  │   Assessment   │  │
-│  │  Learning  │  │  Processing  │  │    Service     │  │
-│  └────────────┘  └──────────────┘  └────────────────┘  │
-└─────────────────────────────────────────────────────────┘
-                           │
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────┐
-│                      Data Layer                          │
-│  ┌────────────┐  ┌──────────────┐  ┌────────────────┐  │
-│  │ PostgreSQL │  │    Redis     │  │   S3 / R2      │  │
-│  │  (Primary  │  │   (Cache)    │  │ (File Storage) │  │
-│  │   Data)    │  │              │  │                │  │
-│  └────────────┘  └──────────────┘  └────────────────┘  │
+│                                                          │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │         Auto-Generated REST/GraphQL APIs           │ │
+│  │  PostgREST │ Rate Limiting │ CORS │ Validation    │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+│  ┌───────────────┐  ┌──────────────┐  ┌─────────────┐ │
+│  │  PostgreSQL   │  │   Storage    │  │  Realtime   │ │
+│  │   Database    │  │  (S3-compat) │  │ (WebSocket) │ │
+│  │  + Extensions │  │ Audio/Assets │  │ Live Updates│ │
+│  └───────────────┘  └──────────────┘  └─────────────┘ │
+│                                                          │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │     Edge Functions (Deno) - Optional               │ │
+│  │  Custom Logic │ Audio Processing │ AI Integration │ │
+│  └────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────┘
                            │
                            │
@@ -265,12 +287,19 @@ Validation for ASR scoring
 ┌─────────────────────────────────────────────────────────┐
 │                  External Services                       │
 │  ┌────────────┐  ┌──────────────┐  ┌────────────────┐  │
-│  │   Google   │  │   Analytics  │  │     Sentry     │  │
-│  │ Cloud TTS/ │  │   (PostHog)  │  │  (Monitoring)  │  │
+│  │   Google   │  │   PostHog    │  │     Sentry     │  │
+│  │ Cloud TTS/ │  │  (Analytics) │  │  (Monitoring)  │  │
 │  │    STT     │  │              │  │                │  │
 │  └────────────┘  └──────────────┘  └────────────────┘  │
 └─────────────────────────────────────────────────────────┘
 ```
+
+**Key Architecture Benefits:**
+- **Simplified Stack**: Single platform replaces separate backend, auth, storage services
+- **Offline-First**: Service workers + IndexedDB cache Supabase data locally
+- **Real-time Ready**: Built-in WebSocket support for live progress updates
+- **Row Level Security**: Database-level access control for multi-tenant data isolation
+- **No Backend Code Needed**: Auto-generated APIs reduce development time by ~40%
 
 ### Database Schema Design
 
@@ -466,100 +495,187 @@ function calculateNextReviewDate(skill: SkillReview): Date {
 }
 ```
 
-## API Design
+## API Design (Supabase)
 
-### REST API Endpoints
+### Auto-Generated REST API (PostgREST)
 
-#### Authentication
-```
-POST   /api/auth/register
-POST   /api/auth/login
-POST   /api/auth/logout
-GET    /api/auth/me
-```
+Supabase automatically generates RESTful APIs for all database tables. No backend code needed!
 
-#### Users & Students
-```
-GET    /api/users/:userId
-PATCH  /api/users/:userId
-GET    /api/students/:studentId
-PATCH  /api/students/:studentId
-POST   /api/students/:studentId/settings
-```
+#### Authentication (Supabase Auth SDK)
+```typescript
+// Sign up
+const { data, error } = await supabase.auth.signUp({
+  email: 'user@example.com',
+  password: 'password123'
+});
 
-#### Exercises
-```
-GET    /api/exercises?module=phonological_awareness&difficulty=3
-GET    /api/exercises/:exerciseId
-POST   /api/exercises/:exerciseId/start      # Start session
-POST   /api/sessions/:sessionId/submit       # Submit attempt
-POST   /api/sessions/:sessionId/complete     # Complete session
+// Sign in
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'user@example.com',
+  password: 'password123'
+});
+
+// Sign out
+const { error } = await supabase.auth.signOut();
+
+// Get current user
+const { data: { user } } = await supabase.auth.getUser();
 ```
 
-#### Progress & Assessment
-```
-GET    /api/students/:studentId/progress
-GET    /api/students/:studentId/progress/skills
-GET    /api/students/:studentId/fluency-assessments
-POST   /api/students/:studentId/fluency-assessments
-GET    /api/students/:studentId/dashboard
-```
+#### Database Queries (Supabase Client SDK)
 
-#### Achievements & Gamification
-```
-GET    /api/students/:studentId/achievements
-GET    /api/students/:studentId/points
-GET    /api/students/:studentId/streak
-```
+**Fetch Students:**
+```typescript
+// Get student by ID
+const { data, error } = await supabase
+  .from('students')
+  .select('*')
+  .eq('id', studentId)
+  .single();
 
-#### Audio Processing
-```
-POST   /api/audio/synthesize               # TTS
-POST   /api/audio/analyze-recording        # STT + WCPM calculation
+// Update student profile
+const { data, error } = await supabase
+  .from('students')
+  .update({ display_name: 'New Name' })
+  .eq('id', studentId);
 ```
 
-### GraphQL Alternative (Optional)
-
-For more complex data fetching needs:
-
-```graphql
-type Student {
-  id: ID!
-  displayName: String!
-  gradeLevel: Int
-  progress: Progress!
-  achievements: [Achievement!]!
-  dailyStreak: Int!
-  recentSessions: [ExerciseSession!]!
-}
-
-type Progress {
-  overallMastery: Float!
-  skillProgress: [SkillProgress!]!
-  fluencyAssessments: [FluencyAssessment!]!
-  weeklyPracticeTime: Int!
-}
-
-type Query {
-  student(id: ID!): Student
-  nextExercise(studentId: ID!, module: String): Exercise
-  dashboard(studentId: ID!): Dashboard
-}
-
-type Mutation {
-  startExercise(exerciseId: ID!): ExerciseSession!
-  submitAttempt(sessionId: ID!, response: JSON!): AttemptResult!
-  completeSession(sessionId: ID!): SessionResult!
-}
+**Fetch Exercises:**
+```typescript
+// Get exercises by module and difficulty
+const { data, error } = await supabase
+  .from('exercises')
+  .select('*')
+  .eq('module', 'phonological_awareness')
+  .lte('difficulty_level', 3)
+  .order('difficulty_level', { ascending: true });
 ```
+
+**Start Exercise Session:**
+```typescript
+// Insert new session
+const { data, error } = await supabase
+  .from('exercise_sessions')
+  .insert({
+    student_id: studentId,
+    exercise_id: exerciseId,
+    status: 'in_progress'
+  })
+  .select()
+  .single();
+```
+
+**Submit Exercise Attempt:**
+```typescript
+// Insert attempt
+const { data, error } = await supabase
+  .from('exercise_attempts')
+  .insert({
+    session_id: sessionId,
+    question_data: questionData,
+    student_response: response,
+    is_correct: isCorrect,
+    response_time_ms: responseTime
+  });
+```
+
+**Progress & Dashboard (with JOIN):**
+```typescript
+// Get student with progress and recent sessions
+const { data, error } = await supabase
+  .from('students')
+  .select(`
+    *,
+    skill_progress(*),
+    exercise_sessions(
+      *,
+      exercises(title, module)
+    ),
+    achievements(*)
+  `)
+  .eq('id', studentId)
+  .single();
+```
+
+### Real-time Subscriptions
+
+```typescript
+// Listen to progress updates in real-time
+const subscription = supabase
+  .channel('student-progress')
+  .on(
+    'postgres_changes',
+    {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'skill_progress',
+      filter: `student_id=eq.${studentId}`
+    },
+    (payload) => {
+      console.log('Progress updated:', payload.new);
+    }
+  )
+  .subscribe();
+```
+
+### Custom Edge Functions (for Complex Logic)
+
+For operations that can't be done with simple queries:
+
+```typescript
+// Edge Function: /functions/calculate-wcpm/index.ts
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+
+serve(async (req) => {
+  const { audioUrl, expectedText } = await req.json();
+
+  // Call Google Cloud Speech-to-Text
+  const transcript = await transcribeAudio(audioUrl);
+
+  // Calculate WCPM
+  const wcpm = calculateWCPM(transcript, expectedText);
+
+  return new Response(JSON.stringify({ wcpm }), {
+    headers: { 'Content-Type': 'application/json' }
+  });
+});
+```
+
+**Invoke from frontend:**
+```typescript
+const { data, error } = await supabase.functions.invoke('calculate-wcpm', {
+  body: { audioUrl, expectedText }
+});
+```
+
+### Storage API
+
+```typescript
+// Upload audio recording
+const { data, error } = await supabase.storage
+  .from('user-recordings')
+  .upload(`${studentId}/${sessionId}.webm`, audioFile);
+
+// Get public URL for audio file
+const { data } = supabase.storage
+  .from('audio-files')
+  .getPublicUrl('phonics/sounds/a.mp3');
+```
+
+### Benefits of Supabase APIs:
+- **No Backend Code**: Auto-generated from database schema
+- **Type-Safe**: TypeScript types auto-generated from schema
+- **Real-time**: WebSocket subscriptions built-in
+- **Secure**: Row Level Security enforced at database level
+- **Performance**: Automatic query optimization and connection pooling
 
 ## Development Workflow
 
-### Project Structure
+### Project Structure (Supabase)
 
 ```
 dyslexia-reading-app/
-├── frontend/                   # React TypeScript app
+├── frontend/                   # React TypeScript PWA
 │   ├── src/
 │   │   ├── components/        # Reusable UI components
 │   │   │   ├── exercises/     # Exercise components
@@ -567,49 +683,49 @@ dyslexia-reading-app/
 │   │   │   └── common/        # Shared components
 │   │   ├── pages/             # Page-level components
 │   │   ├── hooks/             # Custom React hooks
-│   │   ├── services/          # API client services
-│   │   ├── store/             # State management
+│   │   ├── lib/               # Core libraries
+│   │   │   └── supabase.ts    # Supabase client setup
+│   │   ├── services/          # Business logic services
+│   │   │   ├── exercises.ts   # Exercise logic
+│   │   │   ├── progress.ts    # Progress tracking
+│   │   │   └── db.ts          # IndexedDB for offline
+│   │   ├── store/             # Zustand state management
 │   │   ├── utils/             # Utility functions
-│   │   └── types/             # TypeScript types
+│   │   ├── types/             # TypeScript types
+│   │   └── content/           # Static content
+│   │       ├── phonics/       # Phonics data
+│   │       └── schemas/       # JSON schemas
 │   ├── public/                # Static assets
+│   │   └── audio/             # Pre-cached audio files
+│   ├── supabase/              # Supabase configuration
+│   │   ├── migrations/        # SQL migration files
+│   │   ├── seed.sql           # Seed data
+│   │   └── config.toml        # Local Supabase config
 │   └── package.json
 │
-├── backend/                    # Node.js/Express API
-│   ├── src/
-│   │   ├── routes/            # API route handlers
-│   │   ├── controllers/       # Business logic
-│   │   ├── services/          # Service layer
-│   │   │   ├── adaptive-learning.ts
-│   │   │   ├── audio-processing.ts
-│   │   │   └── progress-tracking.ts
-│   │   ├── models/            # Database models
-│   │   ├── middleware/        # Express middleware
-│   │   ├── utils/             # Utility functions
-│   │   └── types/             # TypeScript types
-│   ├── tests/                 # Test files
-│   ├── prisma/                # Prisma ORM schema
-│   └── package.json
-│
-├── shared/                     # Shared types/utilities
-│   └── types/                 # Common TypeScript types
-│
-├── content/                    # Exercise content
-│   ├── phonological-awareness/
-│   ├── phonics/
-│   ├── reading-passages/
-│   └── audio-assets/
+├── supabase/                   # Supabase Edge Functions (optional)
+│   └── functions/
+│       ├── calculate-wcpm/    # WCPM calculation
+│       └── adaptive-difficulty/ # Difficulty adjustment
 │
 ├── docs/                       # Documentation
 │   ├── RESEARCH.md
 │   ├── FEATURE_DESIGN.md
-│   └── TECHNICAL_PLAN.md
+│   ├── TECHNICAL_PLAN.md
+│   └── specs/                 # Feature specifications
 │
-└── infrastructure/             # Deployment configs
-    ├── docker-compose.yml
-    └── k8s/                   # Kubernetes (if needed)
+└── scripts/                    # Utility scripts
+    ├── generate-types.sh      # Generate TS types from DB
+    └── seed-exercises.ts      # Load exercise content
 ```
 
-### Development Setup
+**Key Differences:**
+- **No backend folder**: Supabase replaces traditional backend
+- **supabase/ folder**: Contains SQL migrations and Edge Functions
+- **lib/supabase.ts**: Single Supabase client for entire app
+- **Simpler structure**: ~40% less code to maintain
+
+### Development Setup (Supabase)
 
 #### Prerequisites
 ```bash
@@ -617,11 +733,9 @@ dyslexia-reading-app/
 node --version  # v18+
 pnpm --version  # v8+
 
-# Install PostgreSQL 14+
-postgres --version  # 14+
-
-# Install Redis 6+
-redis-server --version  # 6+
+# Install Supabase CLI (for local development)
+npm install -g supabase
+supabase --version
 ```
 
 #### Initial Setup
@@ -630,20 +744,59 @@ redis-server --version  # 6+
 git clone <repo-url>
 cd dyslexia-reading-app
 
-# Install dependencies
+# Install frontend dependencies
+cd frontend
 pnpm install
 
 # Set up environment variables
 cp .env.example .env
-# Edit .env with database credentials, API keys, etc.
+# Edit .env with Supabase project URL and anon key:
+# VITE_SUPABASE_URL=https://your-project.supabase.co
+# VITE_SUPABASE_ANON_KEY=your-anon-key
 
-# Database setup
-cd backend
-pnpm prisma migrate dev
-pnpm prisma seed  # Load initial exercise content
+# Option 1: Use Supabase Cloud (Recommended for MVP)
+# 1. Create project at https://supabase.com
+# 2. Copy URL and anon key to .env
+# 3. Run migrations via Supabase dashboard or CLI
 
-# Start development servers
-pnpm dev  # Runs both frontend and backend
+# Option 2: Local Supabase Development (Advanced)
+supabase init  # Initialize local Supabase
+supabase start  # Starts local Postgres + PostgREST + Auth
+supabase db reset  # Load schema and seed data
+
+# Start development server
+pnpm dev  # Runs frontend on localhost:5173
+```
+
+#### Supabase Project Setup
+```sql
+-- Run these migrations in Supabase SQL Editor or via CLI
+
+-- Enable Row Level Security
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE students ENABLE ROW LEVEL SECURITY;
+ALTER TABLE exercise_sessions ENABLE ROW LEVEL SECURITY;
+
+-- Create RLS policies (example for students table)
+CREATE POLICY "Users can view their own student profiles"
+  ON students FOR SELECT
+  USING (auth.uid() = user_id);
+
+CREATE POLICY "Parents can view their children's profiles"
+  ON students FOR SELECT
+  USING (
+    auth.uid() IN (
+      SELECT parent_id FROM parent_student_links
+      WHERE student_id = students.id
+    )
+  );
+
+-- Create storage buckets
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('audio-files', 'audio-files', true);
+
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('user-recordings', 'user-recordings', false);
 ```
 
 ### Testing Strategy
@@ -786,49 +939,76 @@ npm run type-check
 - Archive old session data
 - Consider sharding if user base grows significantly
 
-## Cost Estimation (Monthly)
+## Cost Estimation (Monthly) - Supabase Stack
 
-### MVP Stage (100 active users)
-- **Hosting**: $20-50 (Render/Railway)
-- **Database**: $20 (PostgreSQL)
-- **Storage**: $5 (S3 for audio)
-- **Auth**: $0 (Auth0 free tier)
-- **TTS/STT**: $10-30 (usage-based)
-- **Monitoring**: $0 (free tiers)
-- **Total**: ~$55-105/month
+### MVP Stage (100-500 active users)
+- **Supabase Free Tier**: $0
+  - 500MB database storage
+  - 1GB file storage (audio assets)
+  - 50,000 monthly active users
+  - 2GB bandwidth
+  - Unlimited API requests
+- **Frontend Hosting**: $0 (Vercel/Netlify free tier)
+- **TTS/STT**: $10-30 (Google Cloud usage-based)
+- **Monitoring**: $0 (Sentry free tier)
+- **Total**: ~$10-30/month
 
-### Growth Stage (1,000 active users)
-- **Hosting**: $100-200
-- **Database**: $50-100
-- **Storage**: $20-50
-- **Auth**: $30
-- **TTS/STT**: $100-300
-- **CDN**: $20
-- **Monitoring**: $30
-- **Total**: ~$350-730/month
+### Growth Stage (1,000-5,000 active users)
+- **Supabase Pro**: $25/month
+  - 8GB database storage
+  - 100GB file storage
+  - Unlimited users
+  - 250GB bandwidth
+  - Daily backups
+  - 7-day log retention
+- **Frontend Hosting**: $0-20 (likely still free)
+- **TTS/STT**: $100-300 (usage-based)
+- **Monitoring**: $0-30 (Sentry)
+- **Total**: ~$125-375/month
 
-### Scale Stage (10,000+ users)
-- Plan for $2,000-5,000/month
-- Consider enterprise pricing
-- Optimize expensive operations (TTS/STT)
-- Implement more caching
+### Scale Stage (10,000-50,000 users)
+- **Supabase Pro**: $25/month (base)
+  - Additional database storage: ~$25/month (per 50GB)
+  - Additional bandwidth: ~$100/month (per 250GB)
+- **Frontend Hosting**: $20-50
+- **TTS/STT**: $500-1,500 (optimize with caching)
+- **Monitoring**: $50-100
+- **Total**: ~$720-1,700/month
 
-## Next Steps for Implementation
+### Enterprise Stage (50,000+ users)
+- **Supabase Team/Enterprise**: Custom pricing (~$599+/month)
+- **Consider optimizations**:
+  - Pre-generate common audio files (reduce TTS costs)
+  - Implement aggressive caching strategies
+  - Use Web Speech API for basic TTS (free)
+  - Self-host Supabase if cost-effective
+- **Total**: ~$2,000-5,000/month
 
-### Week 1-2: Project Setup
-- [ ] Initialize Git repository structure
-- [ ] Set up frontend (React + TypeScript + Vite)
-- [ ] Set up backend (Node.js + Express + TypeScript)
-- [ ] Configure PostgreSQL + Prisma ORM
-- [ ] Set up development environment
-- [ ] Configure ESLint, Prettier, Husky
+**Cost Savings vs. Traditional Stack:**
+- **MVP**: 60-80% cheaper (no separate backend hosting)
+- **Growth**: 40-50% cheaper (consolidated services)
+- **Scale**: 20-30% cheaper (reduced DevOps overhead)
 
-### Week 3-4: Core Infrastructure
-- [ ] Implement authentication (Auth0)
-- [ ] Design and create database schema
-- [ ] Build basic API endpoints
-- [ ] Create user registration flow
-- [ ] Implement student profile management
+## Next Steps for Implementation (Supabase)
+
+### Week 1-2: Project Setup & Supabase Integration
+- [ ] Initialize Git repository structure (DONE - already exists)
+- [ ] Set up frontend (React + TypeScript + Vite) (DONE - already exists)
+- [ ] Create Supabase project on Supabase Cloud
+- [ ] Install Supabase JavaScript client (`@supabase/supabase-js`)
+- [ ] Configure environment variables (Supabase URL, anon key)
+- [ ] Set up Supabase CLI for local development
+- [ ] Configure ESLint, Prettier, Husky (if not done)
+
+### Week 3-4: Database Schema & Authentication
+- [ ] Design and create database schema in Supabase
+- [ ] Write SQL migrations for all tables (users, students, exercises, etc.)
+- [ ] Set up Row Level Security (RLS) policies
+- [ ] Implement Supabase Auth integration in frontend
+- [ ] Create user registration flow with email verification
+- [ ] Build parent/student profile management
+- [ ] Add COPPA-compliant parental consent flow
+- [ ] Create storage buckets for audio files and user recordings
 
 ### Week 5-8: First Exercise Module
 - [ ] Build phonological awareness exercises

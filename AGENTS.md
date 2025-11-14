@@ -55,15 +55,25 @@ The codebase does not yet contain implementation code - ready to begin developme
 - **Web Audio API + Web Speech API** - Browser-native TTS/STT (free!)
 
 ### Backend
-- **Node.js + Express + TypeScript** - API server
-- **PostgreSQL** - Primary database
-- **Cloudflare R2 or Backblaze B2** - Audio file storage (cheaper than S3)
-- **Auth0** - Authentication (COPPA-compliant)
+- **Supabase** - Backend-as-a-Service (BaaS)
+  - PostgreSQL database (managed)
+  - Authentication (JWT-based)
+  - Object storage (S3-compatible)
+  - Auto-generated REST/GraphQL APIs
+  - Real-time subscriptions
+  - Edge Functions (Deno runtime)
 
 ### Infrastructure
 - **Vercel/Netlify/Cloudflare Pages** - PWA hosting
-- **Railway/Render** - Backend hosting
+- **Supabase Cloud** - Managed backend platform
 - **Sentry** - Error monitoring
+
+**Why Supabase:**
+- Replaces separate backend server, auth service, and file storage
+- Generous free tier aligns with free app mission
+- Reduces infrastructure complexity by ~60%
+- Row Level Security (RLS) for data protection
+- Open-source and self-hostable if needed
 
 ### Why PWA over Native Apps
 - Works on ALL devices (iOS, Android, desktop) from single codebase
@@ -83,6 +93,9 @@ When implementing this project, remember:
 - **Evidence-based design** - All features grounded in research (see RESEARCH.md)
 - **Progress tracking is core** - Users must see measurable improvement
 - **COPPA compliance** - App targets children, requires parental consent and privacy
+  - ⚠️ **Important**: Research Supabase Auth's COPPA compliance status
+  - May need custom parental consent flow before child account creation
+  - Consider age-gated registration requiring parent email verification
 - **Data conservation** - Compress assets, lazy load, cache aggressively
 - **Multimodal learning** - Combine visual, auditory, and kinesthetic approaches
 - **Immediate feedback** - Students learn best with quick, constructive feedback
