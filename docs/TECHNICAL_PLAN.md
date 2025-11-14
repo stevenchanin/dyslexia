@@ -431,6 +431,133 @@ CREATE TABLE daily_practice_log (
 );
 ```
 
+#### Placement & Assessment Tables
+
+**placement_assessments**
+```sql
+CREATE TABLE placement_assessments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  student_id UUID REFERENCES students(id) ON DELETE CASCADE,
+  assessment_type VARCHAR(50) NOT NULL, -- 'initial', 'progress_check', 'reassessment'
+  started_at TIMESTAMP DEFAULT NOW(),
+  completed_at TIMESTAMP,
+  status VARCHAR(50) NOT NULL, -- 'in_progress', 'completed', 'abandoned'
+
+  -- Overall scores
+  total_score DECIMAL(5,2), -- 0-100
+  phoneme_awareness_score DECIMAL(5,2), -- 0-100
+  letter_sound_score DECIMAL(5,2), -- 0-100
+  decoding_score DECIMAL(5,2), -- 0-100
+  fluency_wcpm DECIMAL(5,2), -- Words Correct Per Minute (optional)
+
+  -- Placement results
+  recommended_module INTEGER, -- 1, 2, or 3
+  recommended_difficulty INTEGER, -- 1-10
+  skip_exercises JSONB, -- ['exercise-id-1', 'exercise-id-2']
+
+  -- Detailed results
+  assessment_data JSONB, -- Full breakdown of all test items
+  notes TEXT, -- Educator notes or algorithm explanation
+
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Index for querying latest assessment
+CREATE INDEX idx_placement_student_completed
+  ON placement_assessments(student_id, completed_at DESC);
+```
+
+**placement_assessment_items**
+```sql
+CREATE TABLE placement_assessment_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  assessment_id UUID REFERENCES placement_assessments(id) ON DELETE CASCADE,
+
+  -- Item details
+  domain VARCHAR(100) NOT NULL, -- 'phoneme_awareness', 'letter_sounds', 'decoding'
+  item_type VARCHAR(100) NOT NULL, -- 'sound_identification', 'letter_naming', 'word_reading'
+  difficulty_level INTEGER NOT NULL, -- 1-10
+  item_content JSONB NOT NULL, -- Question/task data
+
+  -- Response tracking
+  student_response JSONB,
+  correct_response JSONB,
+  is_correct BOOLEAN,
+  response_time_ms INTEGER,
+
+  -- Ordering
+  sequence_order INTEGER NOT NULL,
+
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_assessment_items_domain
+  ON placement_assessment_items(assessment_id, domain);
+```
+
+**student_placement**
+```sql
+CREATE TABLE student_placement (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  student_id UUID REFERENCES students(id) ON DELETE CASCADE,
+  placement_assessment_id UUID REFERENCES placement_assessments(id),
+
+  -- Current placement
+  current_module INTEGER NOT NULL, -- 1, 2, or 3
+  current_difficulty INTEGER NOT NULL, -- 1-10
+
+  -- Customization
+  skipped_exercises JSONB, -- Mastered exercises to skip
+  unlocked_modules JSONB, -- [1, 2] - modules available to student
+  custom_pathway JSONB, -- Optional custom exercise sequence
+
+  -- Tracking
+  placement_date TIMESTAMP DEFAULT NOW(),
+  last_reassessment_date TIMESTAMP,
+  next_reassessment_due TIMESTAMP, -- Suggest re-assessment every 4-6 weeks
+
+  -- Parent/educator override
+  manual_override BOOLEAN DEFAULT FALSE,
+  override_reason TEXT,
+  override_by UUID REFERENCES users(id), -- Who made the override
+
+  updated_at TIMESTAMP DEFAULT NOW(),
+
+  -- Only one active placement per student
+  UNIQUE(student_id)
+);
+
+CREATE INDEX idx_student_placement_reassessment
+  ON student_placement(student_id, next_reassessment_due);
+```
+
+**baseline_skills**
+```sql
+CREATE TABLE baseline_skills (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  student_id UUID REFERENCES students(id) ON DELETE CASCADE,
+  placement_assessment_id UUID REFERENCES placement_assessments(id),
+
+  -- Skill-by-skill baseline (for progress comparison)
+  skill_category VARCHAR(100) NOT NULL,
+  skill_name VARCHAR(100) NOT NULL,
+  baseline_score DECIMAL(5,2), -- 0-100
+  baseline_accuracy DECIMAL(5,2), -- 0-100
+  baseline_speed_ms INTEGER, -- Average response time
+
+  -- Items tested
+  items_tested INTEGER,
+  items_correct INTEGER,
+
+  assessed_at TIMESTAMP DEFAULT NOW(),
+
+  UNIQUE(student_id, skill_category, skill_name)
+);
+
+CREATE INDEX idx_baseline_skills_lookup
+  ON baseline_skills(student_id, skill_category);
+```
+
 ## Adaptive Learning Algorithm
 
 ### Difficulty Adjustment Logic
@@ -1010,46 +1137,111 @@ npm run type-check
 - [ ] Add COPPA-compliant parental consent flow
 - [ ] Create storage buckets for audio files and user recordings
 
-### Week 5-8: First Exercise Module
+### Week 5-8: First Exercise Module (MVP Core)
 - [ ] Build phonological awareness exercises
-- [ ] Implement "Sound Identification" exercise
+- [ ] Implement "Sound Identification" exercise (DONE - in progress)
 - [ ] Implement "Sound Manipulation" exercise
-- [ ] Add audio playback support
+- [ ] Add audio playback support (Web Speech API TTS)
 - [ ] Create exercise session tracking
 - [ ] Build basic progress dashboard
+- [ ] User testing with real students (5-10 users)
+- [ ] Iterate based on feedback
 
-### Week 9-12: Progress Tracking & Gamification
+### Week 9-10: Placement Assessment System (Post-MVP Priority 1)
+**Goal:** Personalize learning pathways to maximize effectiveness and engagement
+
+- [ ] Design placement assessment content
+  - [ ] Create 5 phoneme awareness test items (varying difficulty)
+  - [ ] Create 10 letter-sound test items (consonants, short vowels)
+  - [ ] Create 10 decoding test items (5 real words, 5 pseudowords)
+  - [ ] Create rubric and scoring algorithm
+- [ ] Build placement assessment UI
+  - [ ] Welcome screen: "Let's find your perfect starting point!"
+  - [ ] Assessment exercise components (reuse existing exercise patterns)
+  - [ ] Progress indicator during assessment
+  - [ ] Results screen with placement recommendation
+- [ ] Implement placement algorithm
+  - [ ] Scoring logic for each domain
+  - [ ] Placement decision tree (module + difficulty + skip list)
+  - [ ] Store results in `placement_assessments` table
+  - [ ] Create `student_placement` record with recommendations
+- [ ] Integrate placement into user flow
+  - [ ] Trigger assessment on first login (new students only)
+  - [ ] Skip assessment if placement already exists
+  - [ ] Allow manual re-assessment from settings
+  - [ ] Parent/educator dashboard view of placement results
+- [ ] Build baseline tracking
+  - [ ] Store skill-by-skill baseline scores in `baseline_skills` table
+  - [ ] Enable progress comparison (baseline → current performance)
+- [ ] Add placement override capability
+  - [ ] Parent/educator can manually set placement
+  - [ ] Track override in `student_placement.manual_override`
+
+**Success Metrics:**
+- Assessment completion time < 7 minutes
+- 90%+ of students find recommended exercises "just right" difficulty
+- Baseline data captured for all core skills
+
+### Week 11-14: Progress Tracking & Gamification
 - [ ] Implement skill progress calculation
-- [ ] Build student dashboard with charts
+- [ ] Build student dashboard with charts (show progress vs. baseline)
 - [ ] Add points and achievement system
 - [ ] Create adaptive difficulty algorithm
 - [ ] Add daily streak tracking
+- [ ] Build progress reports for parents/educators
+  - [ ] Show baseline vs. current performance
+  - [ ] Highlight areas of growth and areas needing focus
 
-### Week 13-16: Additional Exercise Modules
-- [ ] Build phonics exercises
-- [ ] Build word recognition exercises
-- [ ] Add more exercise variety
-- [ ] Implement spaced repetition
+### Week 15-18: Additional Exercise Modules
+- [ ] Build phonics exercises (Module 2)
+  - [ ] Letter-sound matching
+  - [ ] Word decoding practice
+  - [ ] Decodable text reading
+- [ ] Build word recognition exercises (Module 3)
+  - [ ] Sight word practice
+  - [ ] Sentence fluency
+- [ ] Implement spaced repetition for mastered content
+- [ ] Build module navigation based on placement
 
-### Week 17-20: Audio Features
-- [ ] Integrate TTS (Google Cloud)
-- [ ] Implement audio recording
-- [ ] Build fluency assessment with WCPM
-- [ ] Add speech recognition for pronunciation
+### Week 19-22: Audio Features & Fluency Assessment
+- [ ] Integrate enhanced TTS (Google Cloud for better quality)
+- [ ] Implement audio recording (MediaRecorder API)
+- [ ] Build fluency assessment with WCPM calculation
+  - [ ] Use as periodic reassessment tool
+  - [ ] Compare to baseline fluency
+- [ ] Add speech recognition for pronunciation practice
+- [ ] Optimize audio caching for offline use
 
-### Week 21-24: Polish & Testing
+### Week 23-25: Reassessment & Adaptive Pathways
+- [ ] Build periodic reassessment system (every 4-6 weeks)
+  - [ ] Detect when reassessment is due (`next_reassessment_due`)
+  - [ ] Prompt student/parent to complete progress check
+  - [ ] Update placement if skills have improved
+- [ ] Implement dynamic exercise skipping
+  - [ ] Skip mastered exercises based on performance data
+  - [ ] Unlock new modules when ready
+- [ ] Build "struggling skills" detection
+  - [ ] Identify skills below expected progress
+  - [ ] Recommend focused practice in those areas
+  - [ ] Alert parents/educators
+
+### Week 26-29: Polish & Testing
 - [ ] Comprehensive accessibility testing
-- [ ] End-to-end testing
+- [ ] End-to-end testing (full user journey with placement)
 - [ ] Performance optimization
-- [ ] User feedback testing
+- [ ] User feedback testing (10-20 students, various skill levels)
+- [ ] Validate placement accuracy with educator input
 - [ ] Bug fixes and refinement
 
-### Week 25-26: Launch Preparation
+### Week 30-32: Launch Preparation
 - [ ] Set up production infrastructure
 - [ ] Configure monitoring and alerts
 - [ ] Create user documentation
+  - [ ] How placement works
+  - [ ] How to interpret results
+  - [ ] Parent/educator guides
 - [ ] Plan beta testing program
-- [ ] Deploy MVP
+- [ ] Deploy MVP with placement system
 
 ## Conclusion
 

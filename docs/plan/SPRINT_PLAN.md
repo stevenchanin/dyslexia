@@ -46,15 +46,39 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
 - Story: Streak forgiveness (brainstorm #14)
   - AC: 1 miss per week forgiven (configurable); UX copy updated
 
-## Sprint 5 — Placement, Manual WCPM, Rules-Based Adaptation
-- Story: 1-minute placement probe (brainstorm #3)
-  - AC: 3 short probes (phoneme seg, CVC decoding, sight words); maps to start levels
+## Sprint 5 — Comprehensive Placement Assessment System
+**Goal:** Personalize learning pathways to maximize effectiveness and engagement
+
+- Story: Design placement assessment content & scoring
+  - AC: 5 phoneme awareness items, 10 letter-sound items, 10 decoding items (real words + pseudowords) created
+  - AC: Scoring algorithm defined: phoneme_awareness (0-100), letter_sound (0-100), decoding (0-100)
+  - AC: Placement decision tree documented (module + difficulty + skip list)
+- Story: Build placement assessment UI
+  - AC: Welcome screen: "Let's find your perfect starting point!" (mobile-optimized)
+  - AC: Reuse existing exercise components (Sound Detective pattern)
+  - AC: Progress indicator shows "3 of 25 items" during assessment
+  - AC: Results screen shows scores and placement recommendation
+- Story: Implement placement tables & algorithm
+  - AC: `placement_assessments`, `placement_assessment_items`, `student_placement`, `baseline_skills` tables migrated to Supabase
+  - AC: Placement algorithm assigns `recommended_module`, `recommended_difficulty`, `skip_exercises` based on scores
+  - AC: Results stored with detailed breakdown in JSONB `assessment_data`
+- Story: Integrate placement into user flow
+  - AC: New students see placement on first login (skip if already placed)
+  - AC: Settings menu has "Re-take Placement Test" option
+  - AC: Parent/educator dashboard shows placement results with explanation
+- Story: Baseline tracking for progress comparison
+  - AC: Skill-by-skill baseline scores stored in `baseline_skills` table
+  - AC: Progress dashboard compares current performance vs. baseline
 - Story: Manual WCPM mode (brainstorm #4)
   - AC: 1-minute timer; error tap UI; WCPM auto-calculated and saved
-- Story: Baseline adaptive rules (difficulty +/-)
-  - AC: Rules from TECHNICAL_PLAN applied; logging explains adjustments
-- Story: HCI polish and accessibility quick pass
-  - AC: Keyboard/touch parity; color contrast AA; labels/aria on core views
+- Story: Placement override for parents/educators
+  - AC: Parent/educator can manually set module/difficulty with override reason
+  - AC: Override tracked in `student_placement.manual_override` field
+
+**Success Metrics:**
+- Assessment completion time < 7 minutes
+- 90%+ of students find recommended exercises "just right" difficulty
+- Baseline data captured for all core skills (phoneme awareness, letter-sound, decoding)
 
 ## Sprint 6.5 — Pedagogy Engine & Decodables Integration (Mini)
 - Story: Integrate corrective feedback engine into Module 1 exercises
@@ -130,6 +154,25 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
 ---
 
 # Backlog (Post-MVP or Stretch)
+
+## High Priority (Post-Pilot)
+- **Periodic Reassessment System** (every 4-6 weeks)
+  - AC: Detect when `next_reassessment_due` reached; prompt student/parent
+  - AC: Run abbreviated assessment (faster than initial placement)
+  - AC: Update placement if skills have improved; unlock new modules
+  - AC: Compare reassessment scores to baseline and initial placement
+  - AC: Generate progress report showing growth trajectory
+  - Dep: Requires placement tables from Sprint 5
+- **Dynamic Exercise Skipping**
+  - AC: Skip exercises marked as mastered (90%+ accuracy over 3+ sessions)
+  - AC: Update `skipped_exercises` in `student_placement` table
+  - AC: Show "unlocked" badge when new content becomes available
+- **Struggling Skills Detection & Alerts**
+  - AC: Flag skills below expected progress curve
+  - AC: Recommend focused practice sessions in weak areas
+  - AC: Alert parent/educator when student is struggling
+
+## Medium Priority
 - QR-based offline backup/transfer (brainstorm #9)
 - Local LLM or hybrid serving for cost control
 - Expanded content library and module coverage
@@ -148,7 +191,10 @@ Cadence: 12 sprints x 2 weeks (~24 weeks). Each sprint lists key stories with co
 ---
 
 # Milestones & Dependencies
-- Milestone A (Sprints 1–4): Usable offline PWA with Module 1 exercises and basic progress
-- Milestone B (Sprints 5–7): Placement + manual WCPM + reporting and decodables
-- Milestone C (Sprints 8–10): i18n, content packs, educator utilities, nudges
-- Milestone D (Sprints 11–12): AI assist MVP + pilot readiness
+- **Milestone A** (Sprints 1–4): Usable offline PWA with Module 1 exercises and basic progress
+- **Milestone B** (Sprints 5–7): **Comprehensive placement assessment system** + manual WCPM + reporting and decodables
+  - Enables personalized learning pathways
+  - Baseline tracking for progress comparison
+  - Parent/educator dashboard with placement insights
+- **Milestone C** (Sprints 8–10): i18n, content packs, educator utilities, nudges
+- **Milestone D** (Sprints 11–12): AI assist MVP + pilot readiness
