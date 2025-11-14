@@ -4,6 +4,16 @@
 
 A comprehensive, computer-based reading intervention program that provides engaging, evidence-based exercises to help individuals with dyslexia develop reading skills while tracking measurable progress.
 
+## Kindergarten & Grade 1 Experience Guidelines
+
+Because early readers rely more on visuals than text, every surface of the app should follow these rules:
+- **Audio-first instructions**: tap-to-play voice guidance on every screen, paired with short looping animations that model the action instead of paragraphs of text.
+- **Iconic navigation**: bottom nav uses recognizable symbols (home, play, stars, backpack) plus color-coded backgrounds so non-readers can self-orient.
+- **Large, touch-friendly targets**: minimum 56px tap zones, generous spacing, and drag handles sized for small thumbs.
+- **Character-led motivation**: a friendly guide character introduces exercises, celebrates success, and keeps language consistent for kids and caregivers.
+- **Minimal on-screen text**: when words must appear, use single words or short phrases with pictograms; detailed copy lives behind a parent lock.
+- **Multisensory cues**: pair sound, vibration (if available), particle effects, and stickers so correct answers feel tangible; errors trigger gentle animations rather than red text.
+
 ## Core Exercise Modules
 
 ### Instructional Scope and Sequence (Required)
@@ -23,28 +33,29 @@ Decodable passages and fluency texts should be controlled to taught patterns to 
 
 #### 1.1 Sound Identification
 **Exercise: "Sound Detective"**
-- Audio plays a word, student identifies target sound
+- Audio plays a word while a short animation mouths the target phoneme
+- Student taps from three illustrated icons (e.g., cat’s mouth, train, sun) instead of text labels
 - Levels: beginning sound → ending sound → middle sound
-- Visual feedback with animations
+- Visual feedback with celebratory confetti; wrong answers rewind animation and highlight the correct mouth shape
 - Tracks accuracy and response time
 
 **Exercise: "How Many Sounds?"**
-- Present word (audio + text option)
-- Student counts phonemes
+- Present word (audio + floating letter tiles)
+- Student drags colored counters into a ten-frame to count phonemes
 - Progressive difficulty (cat=3 → script=6)
 - Immediate feedback with sound breakdown
 
 #### 1.2 Sound Manipulation
 **Exercise: "Sound Swapper"**
-- Show/say word (e.g., "cat")
-- Prompt: "Change /k/ to /r/"
-- Student types or selects answer
-- Visual representation of sound positions
-- Gamified with points for speed and accuracy
+- Show/say word (e.g., "cat") with magnet-letter tiles
+- Prompt delivered via character voice: "Let’s swap the first sound!"
+- Student drags replacement tile; no keyboard entry required
+- Visual representation of sound positions pulses to show where to drop
+- Gamified with sparkle trail for quick swaps
 
 **Exercise: "Sound Builder"**
 - Present individual sounds: /k/ /æ/ /t/
-- Student blends to form word
+- Student flicks each sound coin into a blending track that animates the word coming together
 - Progressively faster presentation
 - Tracks blending speed improvement
 
@@ -58,21 +69,19 @@ Decodable passages and fluency texts should be controlled to taught patterns to 
 ### Module 2: Phonics & Decoding
 
 #### 2.1 Letter-Sound Association
-**Exercise: "Letter Sound Match"**
-- Flash letter or grapheme
-- Student says sound (voice recording) or selects from options
+- Flash letter or grapheme on a card while a guide character traces it
+- Student says sound (voice recording) or taps from illustrated options if mic permissions are off
 - Include digraphs (ch, sh, th) and vowel teams
 - Spaced repetition algorithm for retention
 
 **Exercise: "Sound Sort"**
-- Drag letters/graphemes to correct sound category
+- Drag letters/graphemes into color-coded “sound baskets” that play auditory feedback when opened
 - Visual and auditory reinforcement
 - Track mastery of each letter-sound pair
 
 #### 2.2 Word Decoding Practice
-**Exercise: "Word Builder Pro"**
-- Present word with sound-by-sound breakdown
-- Student practices decoding with highlighting
+- Present word with sound-by-sound highlight while a bouncing ball tracks each phoneme
+- Student practices decoding by sliding a finger across the letters (touch tracing) to reinforce left-to-right tracking
 - Adjustable speed for pronunciation
 - Real words and pseudowords mixed
 
@@ -91,7 +100,7 @@ Decodable passages and fluency texts should be controlled to taught patterns to 
 
 #### 3.1 Sight Word Mastery
 **Exercise: "Flash Cards 2.0"**
-- High-frequency word practice
+- High-frequency word practice with illustrated context (e.g., picture of “dog” next to the word)
 - Adaptive presentation based on response time
 - Words mastered move to review pool
 - Track total sight word vocabulary
@@ -103,8 +112,7 @@ Decodable passages and fluency texts should be controlled to taught patterns to 
 - Progress from simple to complex sentences
 
 #### 3.2 Oral Reading Fluency
-**Exercise: "Story Reader"**
-- Present age-appropriate passages
+- Present age-appropriate passages with large text, chunked lines, and optional word-level highlighting
 - Record student reading aloud
 - Calculate WCPM automatically
 - Track fluency improvement over time
@@ -123,7 +131,7 @@ Note: If automated speech recognition (ASR) is used to compute WCPM, validate ag
 #### 4.1 Literal Comprehension
 **Exercise: "Story Questions"**
 - Read short passages (with TTS support option)
-- Answer who, what, when, where questions
+- Answer who, what, when, where questions using illustrated answer choices (characters, objects, locations)
 - Immediate feedback with passage reference
 - Track comprehension accuracy
 
@@ -138,8 +146,8 @@ Note: If automated speech recognition (ASR) is used to compute WCPM, validate ag
 
 #### 5.1 Sound-to-Letter Practice
 **Exercise: "Spell It Right"**
-- Hear word, type spelling
-- Sound-by-sound hints available
+- Hear word, then tap-and-drag letter tiles into a word board (keyboard optional but not required)
+- Sound-by-sound hints available via audio + color glow
 - Tracks common error patterns
 - Adaptive practice on trouble areas
 
@@ -153,12 +161,12 @@ Note: If automated speech recognition (ASR) is used to compute WCPM, validate ag
 
 ### Dashboard Features
 
-#### Student Dashboard
-- **Today's Practice**: Quick access to daily exercises
-- **Progress Overview**: Visual charts showing improvement
-- **Achievements**: Badges and milestones unlocked
-- **Streak Counter**: Days of consecutive practice
-- **Current Level**: Overall progress indicator
+#### Student Dashboard (Kid Mode)
+- **Today’s Adventure**: Single large “Play” button showing the next exercise with iconography
+- **Sticker Trail**: Visual progress path where each activity places a sticker instead of reading charts
+- **Buddy Boosts**: Character pops up with simple phrases (“Great job!”) plus animated reactions
+- **Streak Garden**: Water a plant for every practice day; plant growth replaces numeric streak counters
+- **Level Meter**: Thermometer-style gauge fills with color rather than numbers
 
 #### Detailed Metrics (Parent/Educator View)
 1. **Oral Reading Fluency**
