@@ -26,6 +26,13 @@ export function useSession(exerciseType: ExerciseType, difficulty: number, targe
 
   // Create session on mount if not already active
   useEffect(() => {
+    // Reset stale completed sessions
+    if (sessionState === 'completed') {
+      resetSession();
+      return;
+    }
+
+    // Create new session if needed
     if (!activeSessionId && sessionState === 'not-started' && !createSessionMutation.isPending) {
       createSessionMutation.mutate(
         { exerciseType, difficulty, targetRounds },
@@ -36,7 +43,7 @@ export function useSession(exerciseType: ExerciseType, difficulty: number, targe
         }
       );
     }
-  }, [activeSessionId, sessionState, exerciseType, difficulty, targetRounds, createSessionMutation, startSession]);
+  }, [activeSessionId, sessionState, exerciseType, difficulty, targetRounds, createSessionMutation, startSession, resetSession]);
 
   // Calculate total elapsed time
   const getElapsedTime = useCallback(() => {

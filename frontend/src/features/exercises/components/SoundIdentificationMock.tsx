@@ -40,7 +40,15 @@ export function SoundIdentificationMock() {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   // Fetch rounds query
-  const { data: roundsData, isLoading: roundsLoading } = useRounds(session.sessionId);
+  const { data: roundsData, isLoading: roundsLoading, error: roundsError } = useRounds(session.sessionId);
+
+  // Reset session if rounds query fails (likely stale session ID)
+  useEffect(() => {
+    if (roundsError && session.sessionId) {
+      console.warn('Failed to load rounds, resetting session:', roundsError);
+      session.reset();
+    }
+  }, [roundsError, session]);
 
   // Check TTS support
   useEffect(() => {
@@ -82,7 +90,9 @@ export function SoundIdentificationMock() {
   };
 
   const onChoose = (opt: string) => {
-    if (selected || isSpeaking || !round) return;
+    // Allow retries if previous answer was wrong
+    if (isSpeaking || !round) return;
+    if (correct === true) return; // Don't allow changing answer after getting it right
 
     setSelected(opt);
     const isCorrect = opt === target;
@@ -160,12 +170,26 @@ export function SoundIdentificationMock() {
     setHintText(null);
   };
 
-  // Loading state
+  // Loading state with reset option
   if (!session.isReady || roundsLoading || !round) {
     return (
       <Stack spacing={4}>
         <Heading as="h2" size="lg">Sound Detective</Heading>
         <Text>Loading exercise...</Text>
+        <Text fontSize="sm" color="gray.600" mt={2}>
+          If this takes too long, try{' '}
+          <Button
+            variant="link"
+            colorScheme="blue"
+            onClick={() => {
+              session.reset();
+              window.location.reload();
+            }}
+            size="sm"
+          >
+            resetting the session
+          </Button>
+        </Text>
       </Stack>
     );
   }
@@ -236,7 +260,7 @@ export function SoundIdentificationMock() {
                       colorScheme={color}
                       minW="72px"
                       minH="56px"
-                      isDisabled={isSpeaking || !!selected}
+                      isDisabled={isSpeaking || correct === true}
                     >
                       /{opt}/
                     </Button>
