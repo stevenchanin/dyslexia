@@ -28,7 +28,7 @@ export function SoundMatchPage() {
   const attemptLogger = useAttemptLogger(session.sessionId);
   const { data: roundsData, isLoading: roundsLoading, error: roundsError } = useRounds(session.sessionId);
 
-  const rounds = roundsData?.rounds || [];
+  const rounds = (roundsData?.rounds || []) as SoundIdentificationRound[];
   const round = rounds[currentIndex];
   const target = round ? getTarget(round) : '';
 
