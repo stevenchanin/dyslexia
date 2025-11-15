@@ -1,7 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { UIProvider, Stack, Heading, Card, CardBody } from './ui';
-import { SoundIdentificationMock } from './features/exercises/components/SoundIdentificationMock';
+import { Box } from '@chakra-ui/react';
+import { UIProvider, BottomNav } from './ui';
+import { HomePage } from './pages/HomePage';
+import { ReadingRoomPage } from './pages/ReadingRoomPage';
+import { SoundMatchPage } from './pages/SoundMatchPage';
 
 const queryClient = new QueryClient();
 
@@ -9,16 +13,38 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <UIProvider>
-        <Stack spacing={6} p={4}>
-          <Heading as="h1" size="xl">Dyslexia Intervention (Demo Shell)</Heading>
-          <Card>
-            <CardBody>
-              <Heading as="h2" size="md" mb={3}>Mockup: 1.1 Sound Identification</Heading>
-              <SoundIdentificationMock />
-            </CardBody>
-          </Card>
-        </Stack>
+        <Router>
+          <Box minH="100vh" pb="80px">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/reading-room" element={<ReadingRoomPage />} />
+              <Route path="/sound-match" element={<SoundMatchPage />} />
+              {/* Placeholder routes for future pages */}
+              <Route path="/listening-room" element={<ComingSoon room="Listening Room" />} />
+              <Route path="/games-room" element={<ComingSoon room="Games Room" />} />
+              <Route path="/letter-quest" element={<ComingSoon room="Letter Quest" />} />
+              <Route path="/word-builder" element={<ComingSoon room="Word Builder" />} />
+              <Route path="/play" element={<ComingSoon room="Play" />} />
+              <Route path="/progress" element={<ComingSoon room="Progress" />} />
+              <Route path="/backpack" element={<ComingSoon room="Backpack" />} />
+            </Routes>
+            <BottomNav />
+          </Box>
+        </Router>
       </UIProvider>
     </QueryClientProvider>
+  );
+}
+
+// Placeholder component for unimplemented pages
+function ComingSoon({ room }: { room: string }) {
+  return (
+    <Box p={8} textAlign="center">
+      <Box fontSize="6xl" mb={4}>🚧</Box>
+      <Box fontSize="2xl" fontWeight="bold" mb={2}>
+        {room}
+      </Box>
+      <Box color="gray.600">Coming soon!</Box>
+    </Box>
   );
 }

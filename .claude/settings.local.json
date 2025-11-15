@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(pnpm run build)",
+      "Bash(cat:*)",
+      "Bash(npm install react-router-dom)",
+      "Bash(npm run build)"
     ],
     "deny": [],
     "ask": []

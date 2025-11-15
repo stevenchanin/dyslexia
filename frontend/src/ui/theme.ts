@@ -8,9 +8,19 @@ const config: ThemeConfig = {
 
 export const theme = extendTheme({
   config,
+  colors: {
+    room: {
+      reading: '#6B9969',      // Green
+      listening: '#5FA99B',    // Teal
+      games: '#E89B9B',        // Pink/coral
+    },
+    background: {
+      cream: '#F5F1E8',
+    },
+  },
   styles: {
     global: {
-      body: { bg: 'gray.50', color: 'gray.800' },
+      body: { bg: 'background.cream', color: 'gray.800' },
     },
   },
   fonts: {
