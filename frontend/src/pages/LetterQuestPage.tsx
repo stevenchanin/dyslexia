@@ -113,7 +113,7 @@ export function LetterQuestPage() {
   const attemptLogger = useAttemptLogger(session.sessionId);
   const { data: roundsData, isLoading: roundsLoading, error: roundsError } = useRounds(session.sessionId);
 
-  const rounds = (roundsData?.rounds as LetterIdentificationRound[]) || [];
+  const rounds = (roundsData?.rounds || []) as LetterIdentificationRound[];
   const round = rounds[currentIndex];
 
   // Reset session if rounds query fails

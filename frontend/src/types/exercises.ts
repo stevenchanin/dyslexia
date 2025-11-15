@@ -91,7 +91,7 @@ export interface CreateSessionResponse {
 }
 
 export interface FetchRoundsResponse {
-  rounds: SoundIdentificationRound[];
+  rounds: SoundIdentificationRound[] | LetterIdentificationRound[];
   sessionId: string;
 }
 

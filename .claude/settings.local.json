@@ -9,7 +9,10 @@
       "Bash(pnpm run preview)",
       "Bash(/Users/steven/Library/pnpm/mcp-server-puppeteer --help)",
       "Bash(/Users/steven/Library/pnpm/mcp-server-puppeteer --version)",
-      "Bash(echo \"Exit code: $?\")"
+      "Bash(echo \"Exit code: $?\")",
+      "Bash(git add -A)",
+      "Bash(git commit -m \"fix: TypeScript types for multi-exercise support\n\n- Update FetchRoundsResponse to support both SoundIdentificationRound and LetterIdentificationRound\n- Fix type assertion in LetterQuestPage for safer type handling\")",
+      "Bash(git push origin main)"
     ],
     "deny": [],
     "ask": []
