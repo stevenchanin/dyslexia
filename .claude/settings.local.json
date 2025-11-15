@@ -5,7 +5,11 @@
       "Bash(pnpm run build)",
       "Bash(cat:*)",
       "Bash(npm install react-router-dom)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(pnpm run preview)",
+      "Bash(/Users/steven/Library/pnpm/mcp-server-puppeteer --help)",
+      "Bash(/Users/steven/Library/pnpm/mcp-server-puppeteer --version)",
+      "Bash(echo \"Exit code: $?\")"
     ],
     "deny": [],
     "ask": []

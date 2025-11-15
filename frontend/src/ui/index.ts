@@ -15,3 +15,4 @@ export { ExerciseCard } from './ExerciseCard';
 export { OptionCard } from './OptionCard';
 export { SpeakerButton } from './SpeakerButton';
 export { BottomNav } from './BottomNav';
+export { InstallPrompt, InstallButton } from './InstallPrompt';

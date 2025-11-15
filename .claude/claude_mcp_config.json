@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "puppeteer": {
+      "command": "/Users/steven/Library/pnpm/mcp-server-puppeteer",
+      "args": []
+    }
+  }
+}

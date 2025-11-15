@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PWA Icon Generator</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    canvas { display: none; }
+    .icon-preview {
+      display: inline-block;
+      margin: 10px;
+      text-align: center;
+    }
+    .icon-preview img {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    button {
+      background: #4F46E5;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #4338CA;
+    }
+  </style>
+</head>
+<body>
+  <h1>PWA Icon Generator</h1>
+  <p>This tool generates placeholder PWA icons. Click the buttons below to download each icon size.</p>
+  <p><strong>Note:</strong> These are simple placeholders. For production, create professional icons with your app's branding.</p>
+
+  <div id="previews"></div>
+
+  <div>
+    <button onclick="generateAll()">Generate & Download All Icons</button>
+  </div>
+
+  <script>
+    const sizes = [
+      { name: 'pwa-64x64.png', size: 64 },
+      { name: 'pwa-192x192.png', size: 192 },
+      { name: 'pwa-512x512.png', size: 512 },
+      { name: 'maskable-icon-512x512.png', size: 512, maskable: true },
+      { name: 'apple-touch-icon.png', size: 180 },
+      { name: 'favicon.ico', size: 32 }
+    ];
+
+    function drawIcon(canvas, size, maskable = false) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = size;
+      canvas.height = size;
+
+      // Background
+      ctx.fillStyle = '#4F46E5';
+      if (maskable) {
+        // For maskable icons, use the safe zone (80% of canvas)
+        const padding = size * 0.1;
+        ctx.fillRect(0, 0, size, size);
+      } else {
+        ctx.fillRect(0, 0, size, size);
+      }
+
+      // Calculate book dimensions
+      const scale = size / 512;
+      const bookWidth = 212 * scale;
+      const bookHeight = 232 * scale;
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const bookX = centerX - bookWidth / 2;
+      const bookY = centerY - bookHeight / 2;
+
+      // Draw open book
+      ctx.fillStyle = '#ffffff';
+
+      // Left page
+      ctx.beginPath();
+      ctx.moveTo(bookX, bookY);
+      ctx.lineTo(bookX, bookY + bookHeight);
+      ctx.lineTo(centerX - 5 * scale, bookY + bookHeight);
+      ctx.lineTo(centerX - 5 * scale, bookY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Right page
+      ctx.beginPath();
+      ctx.moveTo(centerX + 5 * scale, bookY);
+      ctx.lineTo(centerX + 5 * scale, bookY + bookHeight);
+      ctx.lineTo(bookX + bookWidth, bookY + bookHeight);
+      ctx.lineTo(bookX + bookWidth, bookY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Book spine (yellow)
+      ctx.fillStyle = '#FCD34D';
+      ctx.fillRect(centerX - 5 * scale, bookY, 10 * scale, bookHeight);
+
+      // Sparkles
+      ctx.fillStyle = '#FCD34D';
+      const sparkleSize = 8 * scale;
+      ctx.beginPath();
+      ctx.arc(bookX - 30 * scale, bookY + 30 * scale, sparkleSize, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(bookX + bookWidth + 30 * scale, bookY + 50 * scale, sparkleSize * 0.75, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(bookX + bookWidth + 18 * scale, bookY + bookHeight - 42 * scale, sparkleSize, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function downloadIcon(name, canvas) {
+      const link = document.createElement('a');
+      link.download = name;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function generateAll() {
+      const canvas = document.createElement('canvas');
+      sizes.forEach(({ name, size, maskable }) => {
+        drawIcon(canvas, size, maskable);
+        setTimeout(() => downloadIcon(name, canvas), 100 * sizes.indexOf({ name, size, maskable }));
+      });
+      alert('Downloading all icons! Check your downloads folder. Move them to the frontend/public/ directory.');
+    }
+
+    // Generate previews
+    const previewsDiv = document.getElementById('previews');
+    sizes.forEach(({ name, size, maskable }) => {
+      const canvas = document.createElement('canvas');
+      drawIcon(canvas, size, maskable);
+
+      const div = document.createElement('div');
+      div.className = 'icon-preview';
+
+      const img = document.createElement('img');
+      img.src = canvas.toDataURL('image/png');
+      img.width = 100;
+      img.alt = name;
+
+      const label = document.createElement('div');
+      label.textContent = `${name} (${size}x${size})`;
+
+      div.appendChild(img);
+      div.appendChild(label);
+      previewsDiv.appendChild(div);
+    });
+  </script>
+</body>
+</html>

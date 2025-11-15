@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@chakra-ui/react';
-import { UIProvider, BottomNav } from './ui';
+import { UIProvider, BottomNav, InstallPrompt } from './ui';
 import { HomePage } from './pages/HomePage';
 import { ReadingRoomPage } from './pages/ReadingRoomPage';
 import { SoundMatchPage } from './pages/SoundMatchPage';
@@ -29,6 +29,7 @@ export function App() {
               <Route path="/backpack" element={<ComingSoon room="Backpack" />} />
             </Routes>
             <BottomNav />
+            <InstallPrompt />
           </Box>
         </Router>
       </UIProvider>
