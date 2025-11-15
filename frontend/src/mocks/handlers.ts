@@ -11,6 +11,7 @@ import type {
   SoundMode,
 } from '../types/exercises';
 import { getRoundsForSession } from './roundGenerator';
+import { getLetterRoundsForSession } from './letterGenerator';
 
 // In-memory storage for mock data
 const sessions = new Map<string, Session>();
@@ -47,11 +48,21 @@ export const handlers = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    const rounds = getRoundsForSession(
-      session.id,
-      session.difficulty,
-      session.targetRounds
-    );
+    // Generate rounds based on exercise type
+    let rounds;
+    if (session.exerciseType === 'letter-identification') {
+      rounds = getLetterRoundsForSession(
+        session.id,
+        session.difficulty,
+        session.targetRounds
+      );
+    } else {
+      rounds = getRoundsForSession(
+        session.id,
+        session.difficulty,
+        session.targetRounds
+      );
+    }
 
     const response: FetchRoundsResponse = {
       rounds,

@@ -4,6 +4,7 @@ export type SoundMode = 'begin' | 'end' | 'middle';
 
 export type ExerciseType =
   | 'sound-identification'
+  | 'letter-identification'
   | 'phoneme-count'
   | 'sound-manipulation'
   | 'rhyme-recognition';
@@ -17,6 +18,23 @@ export interface SoundIdentificationRound {
   difficulty: number;
   metadata?: {
     wordFrequency?: number;
+    distractorStrategy?: 'random' | 'similar' | 'confusable';
+  };
+}
+
+export interface LetterIdentificationRound {
+  id: string;
+  targetLetter: string; // The letter to find (e.g., 'A', 'b')
+  letterName: string; // Name of the letter (e.g., 'uppercase A', 'lowercase b')
+  letterSound: string; // Phonetic sound (e.g., /æ/, /b/)
+  options: Array<{
+    letter: string;
+    word: string;
+    emoji: string;
+  }>; // Array of letter options with words and images
+  case: 'uppercase' | 'lowercase' | 'mixed';
+  difficulty: number;
+  metadata?: {
     distractorStrategy?: 'random' | 'similar' | 'confusable';
   };
 }

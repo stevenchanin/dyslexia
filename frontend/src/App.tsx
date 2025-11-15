@@ -6,6 +6,7 @@ import { UIProvider, BottomNav, InstallPrompt } from './ui';
 import { HomePage } from './pages/HomePage';
 import { ReadingRoomPage } from './pages/ReadingRoomPage';
 import { SoundMatchPage } from './pages/SoundMatchPage';
+import { LetterQuestPage } from './pages/LetterQuestPage';
 
 const queryClient = new QueryClient();
 
@@ -19,10 +20,10 @@ export function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/reading-room" element={<ReadingRoomPage />} />
               <Route path="/sound-match" element={<SoundMatchPage />} />
+              <Route path="/letter-quest" element={<LetterQuestPage />} />
               {/* Placeholder routes for future pages */}
               <Route path="/listening-room" element={<ComingSoon room="Listening Room" />} />
               <Route path="/games-room" element={<ComingSoon room="Games Room" />} />
-              <Route path="/letter-quest" element={<ComingSoon room="Letter Quest" />} />
               <Route path="/word-builder" element={<ComingSoon room="Word Builder" />} />
               <Route path="/play" element={<ComingSoon room="Play" />} />
               <Route path="/progress" element={<ComingSoon room="Progress" />} />
