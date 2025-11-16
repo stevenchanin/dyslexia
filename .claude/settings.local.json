@@ -12,7 +12,18 @@
       "Bash(echo \"Exit code: $?\")",
       "Bash(git add -A)",
       "Bash(git commit -m \"fix: TypeScript types for multi-exercise support\n\n- Update FetchRoundsResponse to support both SoundIdentificationRound and LetterIdentificationRound\n- Fix type assertion in LetterQuestPage for safer type handling\")",
-      "Bash(git push origin main)"
+      "Bash(git push origin main)",
+      "Bash(vercel --version)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_wait_for",
+      "Bash(vercel inspect https://dyslexia-eox1oox2y-stevenchanins-projects.vercel.app --logs)"
     ],
     "deny": [],
     "ask": []
