@@ -21,8 +21,9 @@ async function enableMocking() {
   console.log('MSW worker started and ready');
 }
 
-// Register service worker for PWA (only when not using MSW in dev)
-const shouldEnablePWA = import.meta.env.VITE_DISABLE_MOCKS === 'true' || import.meta.env.PROD;
+// Register service worker for PWA (only when MSW is disabled)
+// Don't enable both PWA and MSW service workers - they conflict
+const shouldEnablePWA = import.meta.env.VITE_DISABLE_MOCKS === 'true';
 
 if (shouldEnablePWA) {
   const updateSW = registerSW({
